@@ -2,17 +2,13 @@ import catchAsync from "../managers/catchAsync.js";
 import APIFeatures from "./APIFeatures.js"
 import User from "../models/userModel.js";
 import AppError from "../managers/AppError.js";
-import Comment from "../models/commentModel.js";
 
 export const getAllDocs = Model => catchAsync(async (req, res, next)=>{
     const features = new APIFeatures(Model.find(),req.query)
 
     features.filter().sort().fields().paginator();
 
-    const docs = await features.query.populate({
-        path:"followers",
-        select:'username'
-    }).populate('projects')
+    const docs = await features.query
 
     res.status(200).json({
         status: 'success',
@@ -93,41 +89,5 @@ export const deleteDoc = Model => catchAsync(async (req, res, next)=>{
         status:"success",
         requestedAt: req.requestedAt,
         data:null
-    })
-})
-
-export const addLiker = Model => catchAsync(async (req, res, next)=>{
-    const doc=await Model.findById(req.params.id)
-    if(!doc) return next(new AppError("No document of this ID found", 401))
-    let likers=[...doc.likers];
-    if(!doc.isLiker) likers.push(req.user.id)
-    else{
-        const newLikers=[];
-        likers.forEach(el=>{
-            if(el!=req.user.id) newLikers.push(el);
-        })
-    }
-    doc.update({likers:likers}, function(err, result){
-        if(err) return new AppError(String(err), 400)
-    })
-    res.status(200).json({
-        status:"success",
-        requestedAt: req.requestedAt,
-        data:likers
-    })
-})
-
-export const addComment = Model => catchAsync(async (req, res, next)=> {
-    req.body.user=req.user.id;
-    const comment = await Comment.create(req.body);
-    const doc= await Model.findById(req.params.id);
-    let comments=[...doc.comments, comment];
-    doc.update({comments:comments}, function(err, result){
-        if(err) return new AppError(String(err), 400)
-    })
-    res.status(200).json({
-        status:"success",
-        requestedAt: req.requestedAt,
-        data:comments
     })
 })

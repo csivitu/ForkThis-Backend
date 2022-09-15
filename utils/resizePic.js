@@ -1,6 +1,6 @@
 import sharp from "sharp";
 
-const resizePic = (model, d1, d2) => (req, res, next)=>{
+const resizePic = () => (req, res, next)=>{
     if(!req.files && !req.file) return next()
 
     const picPath = req.files['profilePic'][0].destination+'/'+req.files['profilePic'][0].filename;

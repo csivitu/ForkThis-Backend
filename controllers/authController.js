@@ -4,6 +4,7 @@ import { promisify } from "util";
 import AppError from "../managers/AppError.js";
 import catchAsync from "../managers/catchAsync.js";
 import envHandler from "../managers/envHandler.js";
+import { createHmac } from "crypto";
 
 export const createSendToken = (user, statusCode, res)=>{
     const token=jwt.sign({ id:user._id }, envHandler("JWT_KEY"), {expiresIn: envHandler("JWT_TIME")*24*60})
@@ -70,7 +71,7 @@ export const protect = catchAsync(async (req, res, next)=>{
 
 export const logout = catchAsync(async (req, res, next)=>{
     res.cookie('jwt', 'loggedout', {
-        expires: new Date(Date.now()+ 10*1000),
+        expires: new Date(Date.now()+ 1*1000),
         httpOnly: true
     });
     res.status(200).json({
@@ -80,9 +81,11 @@ export const logout = catchAsync(async (req, res, next)=>{
     })
 })
 
-export const restrictTo = (...roles) =>{
-    return (req, res, next) => {
-        if(!roles.includes(req.user.role)) return next(new AppError("You do not have the permission to perform this action", 403));
-        next()
-    } 
-}
+export const gitHookCheck = catchAsync(async(req, res, next)=>{
+    const hash = createHmac('sha256', process.env.GITHOOK_KEY)
+                .update(JSON.stringify(req.body))
+                .digest('hex');
+    if(("sha256="+hash).localeCompare(req.headers['x-hub-signature-256'])!=0)
+    return next(new AppError("GitHook Verification Failed"))
+    next()
+})

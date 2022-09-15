@@ -5,8 +5,7 @@ import { createSendToken } from "./authController.js";
 import { getAllDocs, getDoc, updateDoc, deleteDoc } from "../utils/HandlerFactory.js";
 import sendEmail from "../utils/Email.js";
 import resizePic from "../utils/resizePic.js";
-
-export const resizeUserPic = resizePic("project", 500, 500)
+import PR from "../models/prModel.js";
 
 export const getAllUsers=getAllDocs(User)
 
@@ -71,4 +70,14 @@ export const resetPassword= catchAsync(async (req, res, next)=>{
     await user.save();
     
     createSendToken(user, 200, res);
+})
+
+export const getRecents= catchAsync(async(req, res, next)=>{
+    const recents=await PR.find();
+    recents.slice(0,10);
+    res.status(200).json({
+        status:"success",
+        requestedAt: req.requestedAt,
+        data:recents
+    })
 })

@@ -11,6 +11,7 @@ import bodyParser from "body-parser";
 import cors from 'cors'
 import connectToDB from './managers/DB.js';
 import {uncaughtExceptionManager, unhandledRejectionManager} from './managers/baseErrorManager.js';
+import githookRouter from "./routers/githookRouter.js";
 
 
 uncaughtExceptionManager
@@ -44,6 +45,7 @@ app.use((req,res,next)=>{
 })
 
 app.use("/users", userRouter)
+app.use("/githubPayload", githookRouter)
 
 app.all("*", (req, res, next)=>{
     next(new AppError(`Cannot find ${req.originalUrl}`, 404))

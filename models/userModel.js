@@ -6,26 +6,23 @@ import crypto from 'crypto';
 import AppError from "../managers/AppError.js";
 
 const userSchema = new mongoose.Schema({
-    //BASIC
     name:{
         type:String,
-        required:[true, "Please provide the name"],
+        required:true,
         trim:true
     },
     email:{
         type:String,
         unique:true,
-        required:[true, "Please provide the email"],
+        required:true,
         trim:true,
         lowercase:true,
-        validate:[validator.isEmail, "Please provide a valid email"]
     },
     profilePic:{
-        type:String
+        type:String,
+        // default:
     }, 
-    phoneNo:{
-        type:Number
-    },
+    phoneNo:Number,
     username:{
         type:String,
         unique:true,
@@ -34,18 +31,22 @@ const userSchema = new mongoose.Schema({
     },
     tags:[String],
     score:{
-        type:Numner,
+        type:Number,
+        default:0
+    },
+    coins:{
+        type:Number,
         default:0
     },
     password:{
         type:String,
-        required:[true, "Please provide a password"],
+        required:true,
         minlength:8,
         select:false
     },
     confirmPassword:{
         type:String,
-        required:[true, "Please confirm the password"],
+        required:true,
         validate:{
             validator: function(el){
                 return el==this.password;
@@ -64,6 +65,26 @@ const userSchema = new mongoose.Schema({
     toJSON : {virtuals:true},
     toObject : {virtuals:true} 
 });
+
+userSchema.index({score : -1})
+
+userSchema.virtual('PRs',{
+    ref:'PR',
+    foreignField:'user',
+    localField:'_id'
+})
+
+userSchema.virtual('noOfPRs').get(function(){
+    return this.PRs.length;
+})
+
+userSchema.virtual('noOfIssuesSolved').get(function(){
+    const count=0;
+    this.PRs.forEach(el=>{
+        if(el.PRType='merged') count++;
+    })
+    return count;
+})
 
 userSchema.pre("save", async function(next){
     if(!this.isModified('password'))  return next()
