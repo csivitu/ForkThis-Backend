@@ -12,6 +12,8 @@ import cors from 'cors'
 import connectToDB from './managers/DB.js';
 import {uncaughtExceptionManager, unhandledRejectionManager} from './managers/baseErrorManager.js';
 import githookRouter from "./routers/githookRouter.js";
+import challengeRouter from "./routers/challengeRouter.js";
+import shopRouter from "./routers/shopRouter.js";
 
 
 uncaughtExceptionManager
@@ -46,6 +48,8 @@ app.use((req,res,next)=>{
 
 app.use("/users", userRouter)
 app.use("/githubPayload", githookRouter)
+app.use("/challenge", challengeRouter)
+app.use("/shop", shopRouter)
 
 app.all("*", (req, res, next)=>{
     next(new AppError(`Cannot find ${req.originalUrl}`, 404))

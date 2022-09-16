@@ -3,10 +3,11 @@ import catchAsync from "../managers/catchAsync";
 import Challenge from "../models/challengeModel";
 import { createDoc, deleteDoc } from "../utils/HandlerFactory";
 
-const getChallenge= async(req, res, next)=>{
+export const getChallenge= async(req, res, next)=>{
     const challenge=await Challenge.findById(req.params.id);
     if(!challenge) return next(new AppError("No Challenge with this ID found", 500))
     req.challenge=challenge;
+    next()
 }
 
 export const raiseChallenge = createDoc(Challenge); // raise a challenge

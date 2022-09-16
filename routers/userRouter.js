@@ -1,6 +1,7 @@
 import express from "express";
 import { signup, login, protect } from "../Controllers/authController.js";
-import { getAllUsers, UpdatePassword, getUser, updateUser, deleteUser, forgotPassword, resetPassword } from "../Controllers/userController.js";
+import { getLeaderboards } from "../controllers/scoreController.js";
+import { getAllUsers, UpdatePassword, getUser, updateUser, deleteUser, forgotPassword, resetPassword, getRecents } from "../Controllers/userController.js";
 import { joiUserCreateValidator, joiUserUpdateValidator } from "../utils/joiValidators/joiUserValidator.js";
 import imageUploadParserer from "../utils/parserers/imageUploadParserer.js";
 import resizePic from "../utils/resizePic.js";
@@ -19,5 +20,9 @@ userRouter.route('/:id')
 .get(protect, getUser)
 .patch(protect, imageUploadParserer, joiUserUpdateValidator, resizePic, updateUser)
 .delete(protect, deleteUser)
+
+userRouter.get('/leaderboards', protect, getLeaderboards)
+
+userRouter.get('/recents', protect, getRecents)
 
 export default userRouter

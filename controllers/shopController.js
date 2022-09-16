@@ -7,6 +7,8 @@ export const getItems = getAllDocs(Item)
 
 export const getItem = getDoc(Item)
 
+export const addItem = createDoc(Item)
+
 export const buyItem = createDoc(Purchase)
 
 export const getPurchase = getDoc(Purchase)

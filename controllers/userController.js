@@ -6,6 +6,7 @@ import { getAllDocs, getDoc, updateDoc, deleteDoc } from "../utils/HandlerFactor
 import sendEmail from "../utils/Email.js";
 import resizePic from "../utils/resizePic.js";
 import PR from "../models/prModel.js";
+import Issue from "../models/issueModel.js";
 
 export const getAllUsers=getAllDocs(User)
 
@@ -73,8 +74,24 @@ export const resetPassword= catchAsync(async (req, res, next)=>{
 })
 
 export const getRecents= catchAsync(async(req, res, next)=>{
-    const recents=await PR.find();
-    recents.slice(0,10);
+    const prs=await PR.find();
+    const issues= await Issue.find();
+    issues.slice(0,10);
+    prs.slice(0,10);
+    var recents= [];
+    var i, j, k =0;
+    while(i<9 && j<9){
+        if(prs[i].createdAt>issues[j].createdAt){
+            recents[k]=prs[i].createdAt;
+            i++;
+        }
+        else{
+            recents[k]=issues[j].createdAt;
+            j++;
+        }
+        k++;
+    }
+    recents.slice(0,10)
     res.status(200).json({
         status:"success",
         requestedAt: req.requestedAt,

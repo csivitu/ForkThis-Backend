@@ -74,8 +74,18 @@ userSchema.virtual('PRs',{
     localField:'_id'
 })
 
+userSchema.virtual('issuesRaised',{
+    ref:'Issue',
+    foreignField:'raisedBy',
+    localField:'_id'
+})
+
 userSchema.virtual('noOfPRs').get(function(){
     return this.PRs.length;
+})
+
+userSchema.virtual('noOfIssuesRaised').get(function(){
+    return this.issuesRaised.length;
 })
 
 userSchema.virtual('noOfIssuesSolved').get(function(){
