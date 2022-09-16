@@ -26,8 +26,7 @@ const userSchema = new mongoose.Schema({
     username:{
         type:String,
         unique:true,
-        required:true,
-        lowercase:true,
+        required:true
     },
     tags:[String],
     score:{
@@ -81,19 +80,26 @@ userSchema.virtual('issuesRaised',{
 })
 
 userSchema.virtual('noOfPRs').get(function(){
-    return this.PRs.length;
+    if(this.PRs) return this.PRs.length;
+    else return 0
 })
 
 userSchema.virtual('noOfIssuesRaised').get(function(){
-    return this.issuesRaised.length;
+    if(this.issuesRaised) return this.issuesRaised.length;
+    else return 0
 })
 
 userSchema.virtual('noOfIssuesSolved').get(function(){
     const count=0;
-    this.PRs.forEach(el=>{
+    if(this.PRS) this.PRs.forEach(el=>{
         if(el.PRType='merged') count++;
     })
     return count;
+})
+
+userSchema.pre(/^find/, function(next){
+    this.populate("PRs").populate("issuesRaised")
+    next()
 })
 
 userSchema.pre("save", async function(next){

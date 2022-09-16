@@ -1,4 +1,5 @@
 import Joi from "joi"
+import catchAsync from "../../managers/catchAsync.js"
 
 const joiItemSchema = Joi.object({
     name:Joi.string().required(),

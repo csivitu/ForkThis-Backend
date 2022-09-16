@@ -2,12 +2,13 @@ import mongoose from "mongoose";
 
 const IssueSchema = new mongoose.Schema({
     repo:String,
+    repo_url:String,
     raisedBy:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
-    description:String,
-    difficulty:{
+    title:String,
+    label:{
         enum:{
             type:String,
             values:['','','']

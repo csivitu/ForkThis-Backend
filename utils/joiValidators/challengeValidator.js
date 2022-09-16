@@ -1,7 +1,7 @@
 import Joi from "joi"
-import AppError from "../../managers/AppError"
-import catchAsync from "../../managers/catchAsync"
-import User from "../../models/userModel"
+import AppError from "../../managers/AppError.js"
+import catchAsync from "../../managers/catchAsync.js"
+import User from "../../models/userModel.js"
 
 const joiChallengeSchema = Joi.object({
     raisedBy:Joi.string().required(),

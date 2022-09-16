@@ -9,7 +9,7 @@ const joiUserCreateSchema = Joi.object({
         const user= await User.find({email: value});
         if(user) return helper.message("User with this email already exists")
     }).required(),
-    username: Joi.string().alphanum().lowercase().custom(async (value, helper)=>{
+    username: Joi.string().custom(async (value, helper)=>{
         const user= await User.find({username: value});
         if(user) return helper.message("User with this username already exists")
     }).required(),
@@ -29,10 +29,7 @@ const joiUserUpdateSchema =Joi.object({
         const user= await User.find({email: value});
         if(user) return helper.message("User with this email already exists")
     }),
-    username: Joi.string().alphanum().lowercase().custom(async (value, helper)=>{
-        const user= await User.find({username: value});
-        if(user) return helper.message("User with this username already exists")
-    }),
+    username: Joi.forbidden(),
     score:Joi.forbidden(),
     profilePic:Joi.string(),
     password:Joi.forbidden(),
@@ -43,7 +40,7 @@ const joiUserUpdateSchema =Joi.object({
 
 export const joiUserCreateValidator = (async (req, res, next)=>{
     await joiUserCreateSchema.validateAsync(req.body).catch(error=>{
-        if(req.files['profilePic']){   //or req.file
+        if(req.file){   //or req.file
             const picPath = req.files['profilePic'][0].destination+'/'+req.files['profilePic'][0].filename;
             fs.unlinkSync(picPath, function(err){
                 return next(err)

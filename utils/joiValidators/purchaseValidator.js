@@ -1,10 +1,11 @@
 import Joi from "joi"
+import catchAsync from "../../managers/catchAsync.js"
 
 const joiPurchaseSchema = Joi.object({
     item:Joi.string().required(),
     user:Joi.string().required(),
     count:Joi.number().custom((value, helper)=>{
-        if(value<0) return helper.message("Count cannot be negative")
+        if(value<0) return helper.message("Count cannot be negative")   
     }),
     totalCoins:Joi.number().custom((value, helper)=>{
         if(value<0) return helper.message("Total Coins cannot be negative")

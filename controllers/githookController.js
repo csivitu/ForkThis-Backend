@@ -1,3 +1,4 @@
+import AppError from "../managers/AppError.js";
 import catchAsync from "../managers/catchAsync.js";
 import Issue from "../models/issueModel.js";
 import PR from "../models/prModel.js";
@@ -40,14 +41,16 @@ export const acceptPullRequest=catchAsync(async(req, res, next)=>{
 })
 
 export const raiseIssue=catchAsync(async(req, res, next)=>{
-    const username=""; //getting username from the request
-    const user = await User.find({username:username});
+    if(req.body.action!="opened") return next(new AppError("URL Only for opening issues"))
+    const username=req.body.issue.user.login;
+    const user = await User.findOne({username:username});
     const userID=user.id;
     const issue = await Issue.create({
-        repo: "",
-        description:"",
+        repo_url: req.body.issue.repository_url,
+        repo:req.body.repository.name,
+        title:req.body.issue.title,
         raisedBy:userID,
-        difficulty:""
+        label:""
     })
     res.status(200).json({
         status:"success"

@@ -1,7 +1,7 @@
-import catchAsync from "../managers/catchAsync";
-import Item from "../models/shopModels/itemModel";
-import Purchase from "../models/shopModels/purchaseModel";
-import { createDoc, getAllDocs, getAllDocsByUser, getDoc } from "../utils/HandlerFactory";
+import catchAsync from "../managers/catchAsync.js";
+import Item from "../models/shopModels/itemModel.js";
+import Purchase from "../models/shopModels/purchaseModel.js";
+import { createDoc, getAllDocs, getAllDocsByUser, getDoc } from "../utils/HandlerFactory.js";
 
 export const getItems = getAllDocs(Item)
 

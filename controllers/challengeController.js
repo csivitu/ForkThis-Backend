@@ -1,7 +1,7 @@
-import AppError from "../managers/AppError";
-import catchAsync from "../managers/catchAsync";
-import Challenge from "../models/challengeModel";
-import { createDoc, deleteDoc } from "../utils/HandlerFactory";
+import AppError from "../managers/AppError.js";
+import catchAsync from "../managers/catchAsync.js";
+import Challenge from "../models/challengeModel.js";
+import { createDoc, deleteDoc } from "../utils/HandlerFactory.js";
 
 export const getChallenge= async(req, res, next)=>{
     const challenge=await Challenge.findById(req.params.id);

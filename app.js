@@ -1,6 +1,5 @@
 import express from "express";
 import morgan from "morgan"
-import dotenv from 'dotenv'
 import path from 'path'
 import AppError from "./managers/AppError.js";
 import { noURL } from "./controllers/ErrorController.js";
@@ -14,12 +13,12 @@ import {uncaughtExceptionManager, unhandledRejectionManager} from './managers/ba
 import githookRouter from "./routers/githookRouter.js";
 import challengeRouter from "./routers/challengeRouter.js";
 import shopRouter from "./routers/shopRouter.js";
+import envHandler from "./managers/envHandler.js";
 
 
 uncaughtExceptionManager
 
 const __dirname=path.resolve() 
-dotenv.config();
 
 const app=express()
 
@@ -31,7 +30,7 @@ app.use(ExpressMongoSanitize())
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-if(process.env.NODE_ENV=='dev') app.use(morgan("dev"))
+if(envHandler('NODE_ENV')=='dev') app.use(morgan("dev"))
 
 connectToDB()
 

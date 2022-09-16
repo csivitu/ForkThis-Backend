@@ -1,3 +1,6 @@
+import dotenv from 'dotenv'
+
+dotenv.config();
 
 const envHandler = envName =>{
     const env = process.env[envName];
