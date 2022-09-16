@@ -17,7 +17,10 @@ const purchaseSchema = mongoose.Schema({
             addressLine2:String,
             addressLine3:String,
         },
-        isDelivered:Boolean,
+        isDelivered:{
+            type:Boolean,
+            default:false
+        },
         deliveredAt:Date
     },
     purchasedAt:{

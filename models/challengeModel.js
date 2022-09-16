@@ -14,7 +14,8 @@ const challengeSchema = mongoose.Schema({
     challengeStatus:{
         enum:{
             type:String,
-            values:['raised','accepted','rejected','ended']
+            values:['raised','accepted','rejected','ended'],
+            default:'raised'
         }
     },
     startsAt:Date,

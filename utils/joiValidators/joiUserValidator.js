@@ -54,7 +54,7 @@ export const joiUserCreateValidator = (async (req, res, next)=>{
     next()
 })
 
-export const joiUserUpdateValidator = catchAsync(async (req, res, next)=>{
+export const joiUserUpdateValidator = (async (req, res, next)=>{
     await joiUserUpdateSchema.validateAsync(req.body).catch(error=>{
         if(req.files['profilePic']){   //or req.file
             const picPath = req.files['profilePic'][0].destination+'/'+req.files['profilePic'][0].filename;
