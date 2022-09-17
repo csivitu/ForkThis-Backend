@@ -8,11 +8,11 @@ const joiChallengeSchema = Joi.object({
     acceptedBy:Joi.forbidden(),
     challengeStatus:Joi.forbidden(),
     startsAt:Joi.date().custom((value, helper)=>{
-        if(value<Date.now()) return helper.message("Invalid Start Time")
+        // if(value<Date.now()) return helper.message("Invalid Start Time")
         //3 days checker
     }).required(),
     endsAt:Joi.date().custom((value, helper)=>{
-        if(value<Date.now()) return helper.message("Invalid Start Time")
+        // if(value<Date.now()) return helper.message("Invalid Start Time")
         //3 days checker
     }).required(),
     pointsBet:Joi.number().required(),
@@ -40,6 +40,7 @@ const joiUserChallengeSchema = Joi.object({
 
 
 export const joiChallengeValidator = catchAsync(async(req, res, next)=>{
+    req.body.raisedBy=req.user.id;
     await joiChallengeSchema.validateAsync(req.body);
     if(req.user.id!=req.body.raisedBy) return next(new AppError("Please Log in as the challenging user", 400))
     if(req.body.startsAt>req.body.endsAt) return next(new AppError("Invalid Challenge Duration", 400))

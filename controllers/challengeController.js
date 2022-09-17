@@ -1,18 +1,13 @@
 import AppError from "../managers/AppError.js";
 import catchAsync from "../managers/catchAsync.js";
 import Challenge from "../models/challengeModel.js";
-import { createDoc, deleteDoc } from "../utils/HandlerFactory.js";
+import { createDoc, deleteDoc, getDoc } from "../utils/HandlerFactory.js";
 
-export const getChallenge= async(req, res, next)=>{
-    const challenge=await Challenge.findById(req.params.id);
-    if(!challenge) return next(new AppError("No Challenge with this ID found", 500))
-    req.challenge=challenge;
-    next()
-}
+export const getChallenge= getDoc(Challenge)
 
 export const raiseChallenge = createDoc(Challenge); // raise a challenge
 
-export const raiseUserChallenge = createDoc(Challenge) // challenge someone
+export const raiseUserChallenge = createDoc(Challenge); // challenge someone
 
 export const acceptChallenge = catchAsync(async(req, res, next)=>{
     const challenge=req.challenge;
@@ -52,7 +47,7 @@ export const rejectUserChallenge= catchAsync(async(req, res, next)=>{
 
 export const deleteChallenge= catchAsync(async(req, res, next)=>{
     const challenge=req.challenge;
-    if(challenge.challengeStatus!='raised') return next(new AppError("You cannot delete this Challenge.", 500))
+    if(req.user.id!=challenge.raisedBy || challenge.challengeStatus!='raised') return next(new AppError("You cannot delete this Challenge.", 500))
     await challenge.delete()
     res.status(204).json({
         status:"success",
