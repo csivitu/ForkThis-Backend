@@ -15,8 +15,7 @@ import challengeRouter from "./routers/challengeRouter.js";
 import shopRouter from "./routers/shopRouter.js";
 import envHandler from "./managers/envHandler.js";
 
-
-uncaughtExceptionManager
+uncaughtExceptionManager 
 
 const __dirname=path.resolve() 
 

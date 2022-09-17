@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
-import validator from "validator";
 import bcrypt from 'bcryptjs';
-import slugify from "slugify";
 import crypto from 'crypto';
 import AppError from "../managers/AppError.js";
 
@@ -43,16 +41,7 @@ const userSchema = new mongoose.Schema({
         minlength:8,
         select:false
     },
-    confirmPassword:{
-        type:String,
-        required:true,
-        validate:{
-            validator: function(el){
-                return el==this.password;
-            },
-            message:"Passwords do not match"
-        }
-    },
+    confirmPassword:String,
     passwordChangedAt:{
         type:Date,
         default:Date.now()
@@ -92,7 +81,7 @@ userSchema.virtual('noOfIssuesRaised').get(function(){
 userSchema.virtual('noOfIssuesSolved').get(function(){
     const count=0;
     if(this.PRS) this.PRs.forEach(el=>{
-        if(el.PRType='merged') count++;
+        if(el.isMerged) count++;
     })
     return count;
 })

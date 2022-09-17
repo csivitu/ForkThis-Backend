@@ -1,21 +1,28 @@
-import catchAsync from "../managers/catchAsync.js";
 import User from "../models/userModel.js"
 import { getAllDocs } from "../utils/HandlerFactory.js";
 
 export const getLeaderboards= getAllDocs(User)
 
-export const setScore = (PR, user)=>{
-    if(PR.difficulty=='easy'){
+export const setScore =async (issue, user)=>{
+    if(issue.labels.includes('beginner')){
+        user.score+=10;
+        user.coins+=2;
+    }
+    else if(issue.labels.includes('easy')){
         user.score++;
         user.coins++
     }
-    else if (PR.difficulty=='easy'){
+    else if(issue.labels.includes('medium')){
         user.score++;
-        user.coins++;
+        user.coins++
     }
-    else{
+    else if(issue.labels.includes('hard')){
         user.score++;
-        user.coins++;
+        user.coins++
     }
-    return user;
+    else if(issue.labels.includes('expert')){
+        user.score++;
+        user.coins++
+    }
+    await user.save()
 }
