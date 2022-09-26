@@ -35,6 +35,7 @@ export const noURL=(err, req, res, next)=>{
     err.statusCode= err.statusCode || 500;
     err.status= err.status || "error";
     if(envHandler("NODE_ENV")==='dev'){
+        console.log("in dev")
         res.status(err.statusCode).json({
             status:err.status,
             error:err,
@@ -42,6 +43,7 @@ export const noURL=(err, req, res, next)=>{
             stack:err.stack
     })
     } else if(envHandler("NODE_ENV")==='prod'){
+        console.log("in prod")
         let error={...err};
         if(err.name==="CastError") error=CastErrorHandler(error)
         if(err.code===11000) error=DuplicateErrorHandler(error)

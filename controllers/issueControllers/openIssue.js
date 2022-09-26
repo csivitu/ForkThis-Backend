@@ -15,7 +15,12 @@ const openIssue=catchAsync(async(req, res, next)=>{
         issueURL:req.body.issue.url,
         title:req.body.issue.title,
         raisedBy:userID,
-        labels:labels
+        labels:labels,
+        difficulty: labels.includes('beginner') ? 'beginner' : 
+                    labels.includes('easy') ? 'easy' : 
+                    labels.includes('medium') ? 'medium' : 
+                    labels.includes('hard') ? 'hard' : 
+                    labels.includes('expert') ? 'expert' : '' 
     })
     res.status(200).json({
         status:"success"

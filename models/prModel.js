@@ -19,7 +19,7 @@ const PRSchema = new mongoose.Schema({
     },
     createdAt:{
         type:Date,
-        default:Date.now()
+        default:Date.now()  // saves in GMT Time   ?? String(createdAt) converts date to IST
     }
 },{
     toJSON : {virtuals:true},
@@ -27,6 +27,11 @@ const PRSchema = new mongoose.Schema({
 })
 
 PRSchema.index({createdAt : -1})
+
+PRSchema.pre(/^find/,function(next){
+    this.populate('user').populate('issue');
+    next()
+})
 
 const PR = mongoose.model("PR", PRSchema);
 

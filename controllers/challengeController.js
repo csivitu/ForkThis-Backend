@@ -1,9 +1,57 @@
 import AppError from "../managers/AppError.js";
 import catchAsync from "../managers/catchAsync.js";
 import Challenge from "../models/challengeModel.js";
-import { createDoc, deleteDoc, getDoc } from "../utils/HandlerFactory.js";
+import { createDoc, deleteDoc, getAllDocs, getDoc } from "../utils/HandlerFactory.js";
 
 export const getChallenge= getDoc(Challenge)
+
+export const getChallenges= catchAsync(async (req, res, next)=>{
+
+    const docs = await Challenge.find().sort({startsAt:-1})
+
+    res.status(200).json({
+        status: 'success',
+        results: docs.length,
+        requestedAt: req.requestedAt,
+        data: docs,
+    });
+})
+
+export const getRaisedChallenges= catchAsync(async (req, res, next)=>{
+
+    const docs = await Challenge.find({challengeStatus:'raised'}).sort({startsAt:-1})
+
+    res.status(200).json({
+        status: 'success',
+        results: docs.length,
+        requestedAt: req.requestedAt,
+        data: docs,
+    });
+})
+
+export const getActiveChallenges= catchAsync(async (req, res, next)=>{
+
+    const docs = await Challenge.find({$and:[{challengeStatus:'accepted'}, { $or: [ { raisedBy: req.user.id }, { acceptedBy: req.user.id } ] }]}).sort({startsAt:-1})
+
+    res.status(200).json({
+        status: 'success',
+        results: docs.length,
+        requestedAt: req.requestedAt,
+        data: docs,
+    });
+})
+
+export const getClosedChallenges= catchAsync(async (req, res, next)=>{
+
+    const docs = await Challenge.find({$and:[{$or: [ { challengeStatus: "rejected" }, { challengeStatus: "ended" } ]}, { $or: [ { raisedBy: req.user.id }, { acceptedBy: req.user.id } ] }]}).sort({startsAt:-1})   
+
+    res.status(200).json({
+        status: 'success',
+        results: docs.length,
+        requestedAt: req.requestedAt,
+        data: docs,
+    });
+})
 
 export const raiseChallenge = createDoc(Challenge); // raise a challenge
 
@@ -14,6 +62,7 @@ export const acceptChallenge = catchAsync(async(req, res, next)=>{
     challenge.acceptedBy=req.user.id;
     challenge.challengeStatus='accepted'
     await challenge.save()
+    console.log(challenge)
     res.status(201).json({
         status:"success",
         requestedAt: req.requestedAt,

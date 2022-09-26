@@ -86,10 +86,10 @@ userSchema.virtual('noOfIssuesSolved').get(function(){
     return count;
 })
 
-userSchema.pre(/^find/, function(next){
-    this.populate("PRs").populate("issuesRaised")
-    next()
-})
+// userSchema.pre(/^find/, function(next){
+//     this.populate("PRs").populate("issuesRaised")
+//     next()
+// })
 
 userSchema.pre("save", async function(next){
     if(!this.isModified('password'))  return next()

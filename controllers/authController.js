@@ -59,7 +59,7 @@ export const protect = catchAsync(async (req, res, next)=>{
 
     const user= await User.findById(decoded.id)
 
-    if(req.params.id && decoded.id!=req.params.id) return next(new AppError("Please Login in as the Modifying User.", 401))
+    if(req.params.userID && decoded.id!=req.params.userID) return next(new AppError("Please Login in as the Modifying User.", 401))
 
     if(!user) return next(new AppError("User of this token no longer exists", 401))
 

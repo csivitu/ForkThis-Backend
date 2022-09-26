@@ -2,20 +2,23 @@ import Joi from "joi"
 import AppError from "../../managers/AppError.js"
 import catchAsync from "../../managers/catchAsync.js"
 import User from "../../models/userModel.js"
+import moment from "moment"
 
 const joiChallengeSchema = Joi.object({
     raisedBy:Joi.string().required(),
     acceptedBy:Joi.forbidden(),
     challengeStatus:Joi.forbidden(),
     startsAt:Joi.date().custom((value, helper)=>{
-        // if(value<Date.now()) return helper.message("Invalid Start Time")
-        //3 days checker
+        if(value<Date.now()) return helper.message("Invalid Start Time")
+        // 3 days checker
     }).required(),
     endsAt:Joi.date().custom((value, helper)=>{
-        // if(value<Date.now()) return helper.message("Invalid Start Time")
-        //3 days checker
+        // check if end date is not less than start date
+        if(value<Date.now()) return helper.message("Invalid Start Time")
+        // 3 days checker
     }).required(),
     pointsBet:Joi.number().required(),
+    tags:Joi.array().items(Joi.string()).required(),
     raisedUserScore:Joi.forbidden(),
     acceptedUserScore:Joi.forbidden(),
 })
@@ -36,7 +39,6 @@ const joiUserChallengeSchema = Joi.object({
     raisedUserScore:Joi.forbidden(),
     acceptedUserScore:Joi.forbidden(),
 })
-
 
 
 export const joiChallengeValidator = catchAsync(async(req, res, next)=>{

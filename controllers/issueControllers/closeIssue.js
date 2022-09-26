@@ -6,6 +6,7 @@ const closeIssue=catchAsync(async(req, res, next)=>{
     await Issue.findOneAndUpdate({issueURL:req.body.issue.url},{
         isClosed:true
     })
+
     res.status(200).json({
         status:"success"
     })
