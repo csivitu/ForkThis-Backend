@@ -1,8 +1,8 @@
 import express from 'express'
 import { protect } from '../controllers/authController.js'
 import { addItem, buyItem, getItem, getItems, getPurchase, getUserPurchases } from '../controllers/shopController.js'
-import { joiItemValidator } from '../utils/joiValidators/itemValidator.js'
-import { joiPurchaseValidator } from '../utils/joiValidators/purchaseValidator.js'
+import { joiItemValidator } from '../validators/joiValidators/itemValidator.js'
+import { joiPurchaseValidator } from '../validators/joiValidators/purchaseValidator.js'
 
 const shopRouter = express.Router()
 

@@ -2,7 +2,7 @@ import express from "express";
 import { signup, login, protect } from "../Controllers/authController.js";
 import { getLeaderboards } from "../controllers/scoreController.js";
 import { getAllUsers, UpdatePassword, getUser, updateUser, deleteUser, forgotPassword, resetPassword, getRecents, getDashboard } from "../Controllers/userController.js";
-import { joiUserCreateValidator, joiUserUpdateValidator } from "../utils/joiValidators/joiUserValidator.js";
+import { joiUserCreateValidator, joiUserUpdateValidator } from "../validators/joiValidators/joiUserValidator.js";
 import imageUploadParserer from "../utils/parserers/imageUploadParserer.js";
 import resizePic from "../utils/resizePic.js";
 

@@ -30,5 +30,6 @@ export const scheduleChallenge=(challenge) => {
             nowChallenge.challengeStatus='ended';
             nowChallenge.save()
         }
+        if(nowChallenge && !nowChallenge.acceptedBy) await nowChallenge.delete()
     })
 }
