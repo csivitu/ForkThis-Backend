@@ -209,13 +209,13 @@ const tagsVSpr= (prs)=> {
         "documentation":0,
         "bug":0
     }
-    const tagsKeys = Object.keys(tagsObj);
-    const tagsVals = Object.values(tagsObj);
     prs.forEach(pr=>{
         pr.issue.labels.forEach(tag=>{
             tagsObj[tag]++
         })
     })
+    const tagsKeys = Object.keys(tagsObj);
+    const tagsVals = Object.values(tagsObj);
     for(var i=0;i<tagsKeys.length;i++){
         const obj={
             "tag":tagsKeys[i],
