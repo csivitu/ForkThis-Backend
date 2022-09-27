@@ -26,7 +26,7 @@ export const getChallenges= catchAsync(async (req, res, next)=>{
 
 export const getRaisedChallenges= catchAsync(async (req, res, next)=>{
 
-    const docs = await Challenge.find({challengeStatus:'raised'}).sort({startsAt:-1})
+    const docs = await Challenge.find({challengeStatus:'raised'}).sort({startsAt:-1}).populate('raisedBy')
 
     res.status(200).json({
         status: 'success',
