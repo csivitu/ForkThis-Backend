@@ -12,7 +12,8 @@ const openPR=catchAsync(async(req, res, next)=>{
     const issue= await Issue.findOne({issueURL:issueURL});
     await PR.create({
         user:user.id,
-        issue:issue.id
+        issue:issue.id,
+        prURL:req.body.pull_request.url
     })
     res.status(200).json({
         status:"success"

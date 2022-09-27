@@ -117,9 +117,18 @@ function filter(A){
 }
 
 export const getRecents= catchAsync(async(req, res, next)=>{
-    var prs=await PR.find();
-    var issues= await Issue.find();
-    var challenges=await Challenge.find();
+    const prs=await PR.find().sort({createdAt:-1}).populate('user');
+    const issues= await Issue.find().sort({createdAt:-1}).populate('raisedBy');
+    const challenges=await Challenge.find({challengeStatus:"raised"}).sort({createdAt:-1}).populate('raisedBy');
+    prs.forEach(el=>{
+        el.type="pr";
+    })
+    issues.forEach(el=>{
+        el.type="issue";
+    })
+    challenges.forEach(el=>{
+        el.type="challenge";
+    })
     issues.slice(0,10);
     prs.slice(0,10);
     challenges.slice(0,10);

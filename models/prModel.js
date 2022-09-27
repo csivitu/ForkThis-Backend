@@ -9,6 +9,7 @@ const PRSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Issue'
     },
+    prURL:String,
     isClosed:{
         type:Boolean,
         default:false
