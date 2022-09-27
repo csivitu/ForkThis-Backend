@@ -155,16 +155,24 @@ const timeVSpr = (prs) =>{
     const timeData=[];
     const timeSlots=[];
     for(var i=0; i<24*3;i+=3) timeSlots.push(moment(new Date(envHandler("EVENT_START_TIME").replace(/-/g,"/"))).add(i, "hours").format())
+    const a = {
+        noOfPRs:0
+    }
     timeSlots.forEach(el=>{
+        prs.forEach(pr=>{
+            if(compareDates(el, String(pr.createdAt))==1) a.noOfPRs++;
+        })
         const obj={
             timeStrap:el,
-            noOfPRs:0
+            noOfPRs:a.noOfPRs
         }
-        prs.forEach(pr=>{
-            if(compareDates(el, String(pr.createdAt))==1) obj.noOfPRs++;
-        })
         timeData.push(obj)
     })
+    for(var i=0;i<24;i++){
+        if(i*3>=48) timeData[i].timeStrap=`2 days ${i*3==48?``:`${i*3-48} hours`}`
+        else if(i*3>=24) timeData[i].timeStrap=`1 day ${i*3==24?``:`${i*3-24} hours`}`
+        else timeData[i].timeStrap=`${i*3} hours`
+    }
     return timeData;
 }
 
@@ -179,9 +187,6 @@ const diffVSpr = (prs) =>{
     }
     prs.forEach(pr=>{
         diffObj[pr.issue.difficulty]++
-        pr.issue.labels.forEach(tag=>{
-            tagsObj[tag]++
-        })
     })
     const diffKeys = Object.keys(diffObj);
     const diffVals = Object.values(diffObj);
@@ -206,6 +211,11 @@ const tagsVSpr= (prs)=> {
     }
     const tagsKeys = Object.keys(tagsObj);
     const tagsVals = Object.values(tagsObj);
+    prs.forEach(pr=>{
+        pr.issue.labels.forEach(tag=>{
+            tagsObj[tag]++
+        })
+    })
     for(var i=0;i<tagsKeys.length;i++){
         const obj={
             "tag":tagsKeys[i],
