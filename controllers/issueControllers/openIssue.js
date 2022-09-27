@@ -8,7 +8,9 @@ const openIssue=catchAsync(async(req, res, next)=>{
     const userID=user.id;
     const gitLabels=req.body.issue.labels;
     const labels=[];
-    gitLabels.forEach(el=>{labels.push(el.name)})
+    gitLabels.forEach(el=>{
+        if(el!='beginner' && el!='easy' && el!='medium' && el!='hard' && el!='expert') labels.push(el.name)
+    })
     await Issue.create({
         repoURL: req.body.issue.repository_url,
         repo:req.body.repository.name,
@@ -22,7 +24,7 @@ const openIssue=catchAsync(async(req, res, next)=>{
                     labels.includes('hard') ? 'hard' : 
                     labels.includes('expert') ? 'expert' : '' 
     })
-    res.status(200).json({
+    res.status(201).json({
         status:"success"
     })
 })

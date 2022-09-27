@@ -29,11 +29,6 @@ const IssueSchema = new mongoose.Schema({
 
 IssueSchema.index({createdAt : -1})
 
-// IssueSchema.pre(/^find/,function(next){
-//     this.populate('raisedBy');
-//     next()
-// })
-
 const Issue = mongoose.model("Issue", IssueSchema);
 
 export default Issue;

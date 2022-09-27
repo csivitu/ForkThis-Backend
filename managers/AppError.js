@@ -3,9 +3,9 @@ class AppError extends Error{
         super(message);
         this.statusCode=statusCode;
         this.status= `${statusCode}`.startsWith('4') ? "fail":"error";
-        this.isOperationError = true;  //To check if the error is promted form this appError only and not some other programming error
+        this.isOperationError = true;
 
-        Error.captureStackTrace(this, this.constructor);  // to remove this class from the stack trace  
+        Error.captureStackTrace(this, this.constructor);
     }
 }
 

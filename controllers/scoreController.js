@@ -1,6 +1,5 @@
 import catchAsync from "../managers/catchAsync.js";
 import User from "../models/userModel.js"
-import { getAllDocs } from "../utils/HandlerFactory.js";
 
 export const getLeaderboards= catchAsync(async (req, res, next)=>{
 
@@ -17,8 +16,7 @@ export const getLeaderboards= catchAsync(async (req, res, next)=>{
 const tagChecker = (l1, l2)=>{
     const checker=false;
     for(var i=0; i<l1.length; i++){
-        const val = l1[i];
-        if (l2.contains(val)){
+        if (l2.contains(l1[i])){
             checker= true;
             break;
         }
@@ -26,7 +24,7 @@ const tagChecker = (l1, l2)=>{
     return checker;
 }
 
-export const setScore =async (issue, user, challenge)=>{
+export const setScore =async (issue, user, challenge=null)=>{
     const nowScore = user.score;
     if(issue.labels.includes('beginner')){
         user.score+=10;
@@ -48,12 +46,11 @@ export const setScore =async (issue, user, challenge)=>{
         user.score++;
         user.coins++
     }
-    
-    if(tagChecker(issue.labels, challenge.labels)){
+    if(challenge) if(tagChecker(issue.labels, challenge.labels) && issue.difficulty==challenge.difficulty){
         if(challenge.raisedBy==user.id) challenge.raisedUserScore+=user.score-nowScore;
         else if(challenge.acceptedBy==user.id) challenge.acceptedUserScore+=user.score-nowScore;
+        await challenge.save()
     }
 
     await user.save()
-    await challenge.save()
 }

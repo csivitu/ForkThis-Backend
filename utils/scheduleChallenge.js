@@ -1,5 +1,7 @@
 import { scheduleJob } from "node-schedule";
 import moment from "moment";
+import Challenge from "../models/challengeModel.js";
+import User from "../models/userModel.js";
 
 export const scheduleChallenge=(challenge) => {
     const arr=moment(new Date(challenge.endsAt)).format('MMMM Do YYYY, h:mm:ss a').split(' ')
@@ -11,21 +13,22 @@ export const scheduleChallenge=(challenge) => {
     const sec=time_arr[2];
     if(arr[4]=='pm') hr=(Number(hr)+12).toString();
     scheduleJob(`${sec} ${min} ${hr} ${date} ${month} *`,async function(){
-        if(challenge && challenge.accceptedBy){
-            const raisedUser = await User.findById(challenge.raisedBy);
-            const acceptedUser = await User.findById(challenge.acceptedBy);
-            if(challenge.raisedUserScore>challenge.acceptedUserScore){
-                raisedUser.score+=challenge.pointsBet
-                acceptedUser.score-=challenge.pointsBet
+        const nowChallenge = await Challenge.findById(challenge.id)
+        if(nowChallenge && nowChallenge.acceptedBy){
+            const raisedUser = await User.findById(nowChallenge.raisedBy);
+            const acceptedUser = await User.findById(nowChallenge.acceptedBy);
+            if(nowChallenge.raisedUserScore>nowChallenge.acceptedUserScore){
+                raisedUser.score+=nowChallenge.pointsBet
+                acceptedUser.score-=nowChallenge.pointsBet
             }
-            else if(challenge.raisedUserScore<challenge.acceptedUserScore){
-                raisedUser.score-=challenge.pointsBet
-                acceptedUser.score+=challenge.pointsBet
+            else if(nowChallenge.raisedUserScore<nowChallenge.acceptedUserScore){
+                raisedUser.score-=nowChallenge.pointsBet
+                acceptedUser.score+=nowChallenge.pointsBet
             }
             raisedUser.save();
             acceptedUser.save();
-            challenge.challengeStatus='ended';
-            challenge.save()
-            }
+            nowChallenge.challengeStatus='ended';
+            nowChallenge.save()
+        }
     })
 }

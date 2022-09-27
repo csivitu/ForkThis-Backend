@@ -19,7 +19,7 @@ const PRSchema = new mongoose.Schema({
     },
     createdAt:{
         type:Date,
-        default:Date.now()  // saves in GMT Time   ?? String(createdAt) converts date to IST
+        default:Date.now()
     }
 },{
     toJSON : {virtuals:true},

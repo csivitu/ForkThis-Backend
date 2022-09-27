@@ -17,14 +17,14 @@ userRouter.post('/resetPassword', resetPassword)
 
 userRouter.get('/', getAllUsers)
 
-userRouter.get('/leaderboards',  protect, getLeaderboards) //protect 
+userRouter.get('/leaderboards',  protect, getLeaderboards) 
 
 userRouter.get('/recents', protect, getRecents)
 
 userRouter.get('/dashboard', protect, getDashboard)
 
 userRouter.route('/:userID')
-.get(getUser)  //protect // use this for profile
+.get(protect, getUser)
 .patch(protect, imageUploadParserer, joiUserUpdateValidator, resizePic, updateUser)
 .delete(protect, deleteUser)
 

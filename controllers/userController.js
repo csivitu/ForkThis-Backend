@@ -4,15 +4,23 @@ import catchAsync from "../managers/catchAsync.js";
 import { createSendToken } from "./authController.js";
 import { getAllDocs, getDoc, updateDoc, deleteDoc } from "../utils/HandlerFactory.js";
 import sendEmail from "../utils/Email.js";
-import resizePic from "../utils/resizePic.js";
 import PR from "../models/prModel.js";
 import Issue from "../models/issueModel.js";
 import Challenge from "../models/challengeModel.js";
 import moment from "moment";
+import envHandler from "../managers/envHandler.js";
 
 export const getAllUsers=getAllDocs(User)
 
-export const getUser= getDoc(User)
+export const getUser= catchAsync(async (req, res, next)=>{
+    const doc=await User.findById(req.params.userID);
+    if(!doc) return next(new AppError("No document of this ID found", 401))
+    res.status(200).json({
+        status:"success",
+        requestedAt: req.requestedAt,
+        data:doc
+    })
+})
 
 export const updateUser = updateDoc(User);
 
@@ -88,23 +96,16 @@ function mergeTwo(A, B)
 {
     const m = A.length;
     const n = B.length;
-
     const D = [];
-
     let i = 0, j = 0;
     while (i < m && j < n) {
-
         if (A[i].createdAt <= B[j].createdAt)
             D.push(A[i++]);
         else
             D.push(B[j++]);
     }
-
-    while (i < m)
-        D.push(A[i++]);
-
-    while (j < n)
-        D.push(B[j++]);
+    while (i < m) D.push(A[i++]);
+    while (j < n) D.push(B[j++]);
 
     return D;
 }
@@ -144,24 +145,16 @@ function compareDates(A, B){ //A is stramp and B is pr date
     const dateB=B.substring(8,10);
     const hrA=A.substring(11,13);
     const hrB=B.substring(16,18);
-    // const minA=A.substring(14,16);
-    // const minB=B.substring(19,21);
-    // const secA=A.substring(17,19);
-    // const secB=B.substring(22,24);
 
     if(yrA!=yrB || monA!=monB || dateA!=dateB) return -1;
     if(Number(hrB)>=Number(hrA) && Number(hrB)<Number(hrA)+3) return 1
     return -1
 }
 
-export const getDashboard = catchAsync(async(req, res, next)=>{
-    const user= await User.findOne({username:req.user.username}).populate('PRs');
-    const prs=user.PRs;
-    const timeSlots=[];
-    for(var i=0; i<24*3;i+=3) timeSlots.push(moment(new Date("2022-09-24 09:00:00".replace(/-/g,"/"))).add(i, "hours").format())
+const timeVSpr = (prs) =>{
     const timeData=[];
-    const diffData=[];
-    const tagsData=[];
+    const timeSlots=[];
+    for(var i=0; i<24*3;i+=3) timeSlots.push(moment(new Date(envHandler("EVENT_START_TIME").replace(/-/g,"/"))).add(i, "hours").format())
     timeSlots.forEach(el=>{
         const obj={
             timeStrap:el,
@@ -172,19 +165,17 @@ export const getDashboard = catchAsync(async(req, res, next)=>{
         })
         timeData.push(obj)
     })
+    return timeData;
+}
+
+const diffVSpr = (prs) =>{
+    const diffData=[];
     const diffObj={
         "beginner":0,
         "easy":0,
         "medium":0,
         "hard":0,
         "expert":0
-    }
-    const tagsObj={
-        "Web Development":0,
-        "ML":0,
-        "web3":0,
-        "documentation":0,
-        "bug":0
     }
     prs.forEach(pr=>{
         diffObj[pr.issue.difficulty]++
@@ -194,8 +185,6 @@ export const getDashboard = catchAsync(async(req, res, next)=>{
     })
     const diffKeys = Object.keys(diffObj);
     const diffVals = Object.values(diffObj);
-    const tagsKeys = Object.keys(tagsObj);
-    const tagsVals = Object.values(tagsObj);
     for(var i=0;i<5;i++){
         const obj={
             "difficulty":diffKeys[i],
@@ -203,6 +192,20 @@ export const getDashboard = catchAsync(async(req, res, next)=>{
         }
         diffData.push(obj)
     }
+    return diffData;
+}
+
+const tagsVSpr= (prs)=> {
+    const tagsData=[];
+    const tagsObj={
+        "Web Development":0,
+        "ML":0,
+        "web3":0,
+        "documentation":0,
+        "bug":0
+    }
+    const tagsKeys = Object.keys(tagsObj);
+    const tagsVals = Object.values(tagsObj);
     for(var i=0;i<tagsKeys.length;i++){
         const obj={
             "tag":tagsKeys[i],
@@ -210,6 +213,15 @@ export const getDashboard = catchAsync(async(req, res, next)=>{
         }
         tagsData.push(obj)
     }
+    return tagsData;
+}
+
+export const getDashboard = catchAsync(async(req, res, next)=>{
+    const user= await User.findOne({username:req.user.username}).populate('PRs');
+    const prs=user.PRs;
+    const timeData=timeVSpr(prs);
+    const diffData=diffVSpr(prs);
+    const tagsData=tagsVSpr(prs);
     res.status( 200).json({
         status:"success",
         data:{

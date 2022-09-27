@@ -6,7 +6,6 @@ import { noURL } from "./controllers/ErrorController.js";
 import userRouter from "./routers/userRouter.js";
 import helmet from "helmet";
 import ExpressMongoSanitize from "express-mongo-sanitize";
-import bodyParser from "body-parser";
 import cors from 'cors'
 import connectToDB from './managers/DB.js';
 import {uncaughtExceptionManager, unhandledRejectionManager} from './managers/baseErrorManager.js';
@@ -32,17 +31,6 @@ app.use(function(req, res, next) {
 });
 
 app.use(cors())
-
-
-// app.use(cors({
-//   origin:'*',
-//   methods:[
-//     'GET', 'POST'
-//   ],
-//   allowedHeaders:[
-//     'Content-Type'
-//   ]
-// }))
 
 app.use(helmet())
 app.use(ExpressMongoSanitize())

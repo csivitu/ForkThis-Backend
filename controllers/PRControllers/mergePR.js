@@ -5,7 +5,6 @@ import Issue from "../../models/issueModel.js";
 import { setScore } from "../scoreController.js";
 
 const mergePR=catchAsync(async(req, res, next)=>{
-   
     const username=req.body.pull_request.user.login;
     const repoURL=req.body.pull_request.base.repo.url;
     const issueTag=req.body.pull_request.body.match(/#\d+/g)[0].match(/\d+/)[0]
@@ -16,7 +15,7 @@ const mergePR=catchAsync(async(req, res, next)=>{
         isClosed:true,
         isMerged:true
     })
-    setScore(issue, user)
+    setScore(issue, user, challenge)
     res.status(200).json({
         status:"success"
     })

@@ -1,4 +1,3 @@
-import AppError from "../managers/AppError.js";
 import catchAsync from "../managers/catchAsync.js";
 import openIssue from './issueControllers/openIssue.js';
 import closeIssue from "./issueControllers/closeIssue.js";
@@ -8,12 +7,6 @@ import closePR from "./PRControllers/closePR.js";
 import reopenPR from "./PRControllers/reopenPR.js";
 import mergePR from "./PRControllers/mergePR.js";
 import labelIssue from "./issueControllers/labelIssue.js";
-
-export const gitHookTester= (req, res, next)=>{
-    res.status(200).json({
-        status:"success"
-    })
-}
 
 export const PRController=catchAsync(async(req, res, next)=>{
     if(req.body.action=="opened") openPR(req, res, next)
