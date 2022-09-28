@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Item from "./itemModel.js";
 
 const purchaseSchema = mongoose.Schema({
     item:{
@@ -32,6 +33,12 @@ const purchaseSchema = mongoose.Schema({
 purchaseSchema.pre(/^find/,function(next){
     this.populate('item');
     next()
+})
+
+purchaseSchema.post("save", async function(doc){
+    const item = await Item.findById(doc.item)
+    item.countInStock-=doc.count;
+    item.save()
 })
 
 const Purchase = mongoose.model("Purchase", purchaseSchema);

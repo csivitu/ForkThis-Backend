@@ -115,7 +115,7 @@ function mergeTwo(A, B)
     const D = [];
     let i = 0, j = 0;
     while (i < m && j < n) {
-        if (A[i].createdAt <= B[j].createdAt)
+        if (A[i].createdAt >= B[j].createdAt)
             D.push(A[i++]);
         else
             D.push(B[j++]);
@@ -156,10 +156,9 @@ export const getRecents= catchAsync(async(req, res, next)=>{
     challenges.slice(0,10);
     issues=populateArr(issues);
     challenges=populateArr(challenges);
-    prs=populateArr(challenges);
+    prs=populateArr(prs);
     const temp=mergeTwo(issues, challenges);
     const recents=filter(mergeTwo(temp, prs)).slice(0,10)
-
 
     const recentData = [];
     recents.forEach((el) => {
