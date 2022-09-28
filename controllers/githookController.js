@@ -9,6 +9,7 @@ import mergePR from "./PRControllers/mergePR.js";
 import labelIssue from "./issueControllers/labelIssue.js";
 
 export const PRController=catchAsync(async(req, res, next)=>{
+    const { action } = req.body;
     if(req.body.action=="opened") openPR(req, res, next)
     if(req.body.action=="closed") req.body.pull_request.merged_at ? mergePR(req, res, next) : closePR(req, res, next)
     if(req.body.action=="reopened") reopenPR(req, res, next)

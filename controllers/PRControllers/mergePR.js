@@ -5,12 +5,12 @@ import Issue from "../../models/issueModel.js";
 import { setScore } from "../scoreController.js";
 
 const mergePR=catchAsync(async(req, res, next)=>{
-    // const username=req.body.pull_request.user.login;
+    const username=req.body.pull_request.user.login;
     // const repoURL=req.body.pull_request.base.repo.url;
-    // const issueTag=req.body.pull_request.body.match(/#\d+/g)[0].match(/\d+/)[0]
-    // const issueURL=`${repoURL}/issues/${issueTag}`
-    // const user = await User.findOne({username:username});
-    // const issue= await Issue.findOne({issueURL:issueURL});
+    const issueTag=req.body.pull_request.body.match(/#\d+/g)[0].match(/\d+/)[0]
+    const issueURL=`${repoURL}/issues/${issueTag}`
+    const user = await User.findOne({username:username});
+    const issue= await Issue.findOne({issueURL:issueURL});
     const prURL= req.body.pull_request.url
     const pr = await PR.findOneAndUpdate({prURL:prURL},{
         isClosed:true,

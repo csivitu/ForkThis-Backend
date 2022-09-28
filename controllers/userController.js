@@ -310,3 +310,12 @@ export const getDashboard = catchAsync(async(req, res, next)=>{
         }
     })
 })
+
+export const getRepoIssues = catchAsync(async(req, res, next)=>{
+    const repo=req.params.repo;
+    const issues= await Issue.find({repo:repo}).sort({createdAt:-1})
+    res.status( 200).json({
+        status:"success",
+        data:issues
+    })
+})

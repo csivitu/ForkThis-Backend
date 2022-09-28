@@ -19,7 +19,7 @@ export const getAllDocs = Model => catchAsync(async (req, res, next)=>{
 })
 
 export const getAllDocsByUser = Model => catchAsync(async (req, res, next)=>{
-    const user = await User.findOne({username:req.params.username})
+    const user = await User.findOne({id:req.user.id})
     if(!user) return next(new AppError("No user of this username found", 401))
     const userID=user.id;
     const features = new APIFeatures(Model.find({user:userID}),req.query)

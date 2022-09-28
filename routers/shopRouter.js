@@ -14,7 +14,7 @@ shopRouter.get('/item/:id', protect, getItem)
 
 shopRouter.post('/purchase', protect, joiPurchaseValidator, buyItem)
 
-shopRouter.route('/purchases', protect, getUserPurchases)
+shopRouter.get('/purchases', protect, getUserPurchases)
 
 shopRouter.get('/purchase/:id', protect, getPurchase)
 
