@@ -4,6 +4,7 @@ import Challenge from "../models/challengeModel.js";
 import { createDoc, deleteDoc, getAllDocs, getDoc } from "../utils/HandlerFactory.js";
 
 export const getReqChallenge= catchAsync(async (req, res, next)=>{
+    console.log(req.params.id)
     const challenge = await Challenge.findById(req.params.id);
     if(!challenge) next(new AppError("No Challenge of this ID found.", 400))
     req.challenge=challenge;

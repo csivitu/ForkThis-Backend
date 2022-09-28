@@ -28,7 +28,7 @@ export const deleteUser = deleteDoc(User);
 
 export const getMe =catchAsync(async(req, res, next)=>{
     const user= req.user;
-    const users=await User.find().sort({score:-1});
+    const users=await User.find().populate("PRs").sort({score:-1});
     const ids=[];
     users.forEach(el=>{
         ids.push(el.id)

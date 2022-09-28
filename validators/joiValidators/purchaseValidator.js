@@ -7,22 +7,21 @@ const joiPurchaseSchema = Joi.object({
     count:Joi.number().custom((value, helper)=>{
         if(value<0) return helper.message("Count cannot be negative")   
     }),
-    totalCoins:Joi.number().custom((value, helper)=>{
-        if(value<0) return helper.message("Total Coins cannot be negative")
-    }),
-    delivery:{
-        deliveryTo:{
-            addressLine1:Joi.string().required(),
-            addressLine2:Joi.string().required(),
-            addressLine3:Joi.string().required()
-        },
-        isDelivered:Joi.forbidden(),
-        deliveredAt:Joi.forbidden()
-    },
+    totalCoins:Joi.forbidden(),
+    // delivery:{
+    //     deliveryTo:{
+    //         addressLine1:Joi.string().required(),
+    //         addressLine2:Joi.string().required(),
+    //         addressLine3:Joi.string().required()
+    //     },
+    //     isDelivered:Joi.forbidden(),
+    //     deliveredAt:Joi.forbidden()
+    // },
     purchasedAt:Joi.forbidden(),
 })
 
 export const joiPurchaseValidator = catchAsync(async(req, res, next)=>{
+    req.body.user=req.user.id
     await joiPurchaseSchema.validateAsync(req.body);
     next()
 })

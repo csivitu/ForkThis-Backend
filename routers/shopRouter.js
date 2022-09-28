@@ -6,16 +6,16 @@ import { joiPurchaseValidator } from '../validators/joiValidators/purchaseValida
 
 const shopRouter = express.Router()
 
-shopRouter.route('/item')
-    .get(protect, getItem)
-    .post(protect, joiItemValidator, addItem)
+shopRouter.post('/item', protect, joiItemValidator, addItem)
 
 shopRouter.get('/items', protect, getItems)
 
-shopRouter.route('/purchase/:id')
-    .get(protect, getPurchase)
-    .post(protect, joiPurchaseValidator, buyItem)
+shopRouter.get('/item/:id', protect, getItem)
+
+shopRouter.post('/purchase', protect, joiPurchaseValidator, buyItem)
 
 shopRouter.route('/purchases', protect, getUserPurchases)
+
+shopRouter.get('/purchase/:id', protect, getPurchase)
 
 export default shopRouter;

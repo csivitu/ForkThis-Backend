@@ -18,6 +18,7 @@ const challengeSchema = mongoose.Schema({
     tags:[String],
     difficulty:{
         type:String,
+        lowercase:true,
         enum:['beginner','easy','medium','hard','expert']
     },
     startsAt:Date,
