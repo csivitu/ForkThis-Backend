@@ -16,7 +16,7 @@ const joiChallengeSchema = Joi.object({
         if(value<Date.now()) return helper.message("Invalid End Time")
         if(value>new Date(envHandler('EVENT_END_TIME'))) return helper.message("Invalid End Time")
     }).required(),
-    pointsBet:Joi.number().required(),
+    coinsBet:Joi.number().required(),
     tags:Joi.array().items(Joi.string()).required(),
     difficulty:Joi.string(),
     raisedUserScore:Joi.forbidden(),
@@ -28,7 +28,7 @@ export const joiChallengeValidator = catchAsync(async(req, res, next)=>{
     if(challenges.length>=1) return next(new AppError("You already are a part of an active Challenge.", 400))
     await joiChallengeSchema.validateAsync(req.body);
     req.body.raisedBy=req.user.id;
-    if(req.body.pointsBet<req.user.pointsBet) return next(new AppError("Invalid Bet Points", 400))
+    if(req.body.coinsBet>req.user.coins) return next(new AppError("Invalid Bet coins", 400))
     if(req.body.startsAt>=req.body.endsAt) return next(new AppError("Invalid Challenge Duration", 400))
     next()
 })

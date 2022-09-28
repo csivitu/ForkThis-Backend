@@ -2,6 +2,7 @@ import catchAsync from "../../managers/catchAsync.js";
 import User from "../../models/userModel.js";
 import PR from "../../models/prModel.js";
 import Issue from "../../models/issueModel.js";
+import Challenge from "../../models/challengeModel.js";
 
 const openPR=catchAsync(async(req, res, next)=>{
     const username=req.body.pull_request.user.login;
@@ -15,6 +16,17 @@ const openPR=catchAsync(async(req, res, next)=>{
         issue:issue.id,
         prURL:req.body.pull_request.url
     })
+
+    const challenge = await Challenge.findOne({$and:[{challengeStatus:'accepted'}, { $or: [ { raisedBy: req.user.id }, { acceptedBy: req.user.id } ] }]})
+    const obj = {
+        data:`Raised a new Pull Request in ${issue.repo}`,
+        URL:req.body.pull_request.url
+    }
+    if(challenge){
+        if(user.id==challenge.raisedBy) challenge.raisedUserActivity.push(obj)
+        else if(user.id==challenge.acceptedBy) challenge.acceptedUserActivity.push(obj)
+    }
+
     res.status(200).json({
         status:"success"
     })

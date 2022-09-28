@@ -4,7 +4,6 @@ import Challenge from "../models/challengeModel.js";
 import { createDoc, deleteDoc, getAllDocs, getDoc } from "../utils/HandlerFactory.js";
 
 export const getReqChallenge= catchAsync(async (req, res, next)=>{
-    console.log(req.params.id)
     const challenge = await Challenge.findById(req.params.id);
     if(!challenge) next(new AppError("No Challenge of this ID found.", 400))
     req.challenge=challenge;
@@ -39,7 +38,7 @@ export const getRaisedChallenges= catchAsync(async (req, res, next)=>{
 
 export const getActiveChallenges= catchAsync(async (req, res, next)=>{
 
-    const docs = await Challenge.find({$and:[{challengeStatus:'accepted'}, { $or: [ { raisedBy: req.user.id }, { acceptedBy: req.user.id } ] }]}).sort({startsAt:-1})
+    const docs = await Challenge.findOne({$and:[{challengeStatus:'accepted'}, { $or: [ { raisedBy: req.user.id }, { acceptedBy: req.user.id } ] }]}).populate('raisedBy').populate('acceptedBy')
 
     res.status(200).json({
         status: 'success',

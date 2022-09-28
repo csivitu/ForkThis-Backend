@@ -18,12 +18,12 @@ export const scheduleChallenge=(challenge) => {
             const raisedUser = await User.findById(nowChallenge.raisedBy);
             const acceptedUser = await User.findById(nowChallenge.acceptedBy);
             if(nowChallenge.raisedUserScore>nowChallenge.acceptedUserScore){
-                raisedUser.score+=nowChallenge.pointsBet
-                acceptedUser.score-=nowChallenge.pointsBet
+                raisedUser.coins+=nowChallenge.coinsBet
+                acceptedUser.coins-=nowChallenge.coinsBet
             }
             else if(nowChallenge.raisedUserScore<nowChallenge.acceptedUserScore){
-                raisedUser.score-=nowChallenge.pointsBet
-                acceptedUser.score+=nowChallenge.pointsBet
+                raisedUser.coins-=nowChallenge.coinsBet
+                acceptedUser.coins+=nowChallenge.coinsBet
             }
             raisedUser.save();
             acceptedUser.save();

@@ -24,15 +24,23 @@ const challengeSchema = mongoose.Schema({
     startsAt:Date,
     endsAt:Date,
     accceptedAt:Date,
-    pointsBet:Number,
+    coinsBet:Number,
     raisedUserScore:{
         type:Number,
         default:0
     },
+    raisedUserActivity:[{
+        data:String,
+        URL:String
+    }],
     acceptedUserScore:{
         type:Number,
         default:0
     },
+    acceptedUserActivity:[{
+        data:String,
+        URL:String
+    }],
     createdAt:{
         type:Date,
         default:Date.now()
