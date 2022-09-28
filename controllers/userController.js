@@ -26,6 +26,22 @@ export const updateUser = updateDoc(User);
 
 export const deleteUser = deleteDoc(User);
 
+export const getMe =catchAsync(async(req, res, next)=>{
+    const user= req.user;
+    const users=await User.find().sort({score:-1});
+    const ids=[];
+    users.forEach(el=>{
+        ids.push(el.id)
+    })
+    const rank = ids.indexOf(user.id)+1
+    const data={...user._doc, rank}
+    res.status(200).json({
+        status:"success",
+        requestedAt: req.requestedAt,
+        data
+    })
+})
+
 export const UpdatePassword= catchAsync(async (req, res, next)=>{
     const user=await User.findById(req.user.id).select("+password");
     if(! await user.correctPassword(req.body.password, user.password)) return next(new AppError("Incorect Password, Please enter the corrent password", 401));
@@ -117,17 +133,23 @@ function filter(A){
 }
 
 export const getRecents= catchAsync(async(req, res, next)=>{
-    const prs=await PR.find().sort({createdAt:-1}).populate('user');
-    const issues= await Issue.find().sort({createdAt:-1}).populate('raisedBy');
-    const challenges=await Challenge.find({challengeStatus:"raised"}).sort({createdAt:-1}).populate('raisedBy');
-    prs.forEach(el=>{
-        el.type="pr";
+    const prsPre=await PR.find().sort({createdAt:-1}).populate('user');
+    const issuesPre= await Issue.find().sort({createdAt:-1}).populate('raisedBy');
+    const challengesPre=await Challenge.find({challengeStatus:"raised"}).sort({createdAt:-1}).populate('raisedBy');
+    var prs=[];
+    var issues=[];
+    var challenges=[];
+    prsPre.forEach(el=>{
+        const type="pr";
+        prs.push({...el._doc,type});
     })
-    issues.forEach(el=>{
-        el.type="issue";
+    issuesPre.forEach(el=>{
+        const type="issue";
+        issues.push({...el._doc,type});
     })
-    challenges.forEach(el=>{
-        el.type="challenge";
+    challengesPre.forEach(el=>{
+        const type="challenge";
+        challenges.push({...el._doc,type});
     })
     issues.slice(0,10);
     prs.slice(0,10);
@@ -137,10 +159,32 @@ export const getRecents= catchAsync(async(req, res, next)=>{
     prs=populateArr(challenges);
     const temp=mergeTwo(issues, challenges);
     const recents=filter(mergeTwo(temp, prs)).slice(0,10)
+
+
+    const recentData = [];
+    recents.forEach((el) => {
+    const obj = {
+        data: "",
+        URL: "/",
+    };
+    if (el.type == "pr") {
+        obj.data = `${el.user.username} raised a new Pull Request.`;
+        if (el.prURL) obj.URL = el.prURL;
+    } else if (el.type == "issue") {
+        obj.data = `${el.raisedBy.username} raised a new Issue in ${el.repo}.`;
+        obj.URL = el.issueURL;
+    } else if (el.type == "challenge") {
+        obj.data = `${el.raisedBy.username} raised a new Challenge.`;
+        // obj.URL=  // redirect to challenges page
+    }
+    recentData.push(obj);
+    });
+
+
     res.status(200).json({
         status:"success",
         requestedAt: req.requestedAt,
-        data:recents
+        data:recentData
     })
 })
 
@@ -165,15 +209,32 @@ const timeVSpr = (prs) =>{
     const timeSlots=[];
     for(var i=0; i<24*3;i+=3) timeSlots.push(moment(new Date(envHandler("EVENT_START_TIME").replace(/-/g,"/"))).add(i, "hours").format())
     const a = {
-        noOfPRs:0
+        noOfPRsOfProject1:0,
+        noOfPRsOfProject2:0,
+        noOfPRsOfProject3:0,
+        noOfPRsOfProject4:0,
+        noOfPRsOfProject5:0
     }
+    //project1 = interact_main
+    //project2 = someOther Project
     timeSlots.forEach(el=>{
         prs.forEach(pr=>{
-            if(compareDates(el, String(pr.createdAt))==1) a.noOfPRs++;
+            if(compareDates(el, String(pr.createdAt))==1){
+                if(pr.issue.repo=='interact-old') a.noOfPRsOfProject1++;
+                else if(pr.issue.repo=='interact_main2') a.noOfPRsOfProject2++;
+                else if(pr.issue.repo=='interact_main3') a.noOfPRsOfProject3++;
+                else if(pr.issue.repo=='interact_main4') a.noOfPRsOfProject4++;
+                else if(pr.issue.repo=='interact_main5') a.noOfPRsOfProject5++;
+
+            };
         })
         const obj={
             timeStrap:el,
-            noOfPRs:a.noOfPRs
+            noOfPRsOfProject1:a.noOfPRsOfProject1,
+            noOfPRsOfProject2:a.noOfPRsOfProject2,
+            noOfPRsOfProject3:a.noOfPRsOfProject3,
+            noOfPRsOfProject4:a.noOfPRsOfProject4,
+            noOfPRsOfProject5:a.noOfPRsOfProject5
         }
         timeData.push(obj)
     })

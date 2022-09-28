@@ -1,7 +1,7 @@
 import express from "express";
 import { signup, login, protect } from "../Controllers/authController.js";
 import { getLeaderboards } from "../controllers/scoreController.js";
-import { getAllUsers, UpdatePassword, getUser, updateUser, deleteUser, forgotPassword, resetPassword, getRecents, getDashboard } from "../Controllers/userController.js";
+import { getAllUsers, UpdatePassword, getUser, updateUser, deleteUser, forgotPassword, resetPassword, getRecents, getDashboard, getMe } from "../Controllers/userController.js";
 import { joiUserCreateValidator, joiUserUpdateValidator } from "../validators/joiValidators/joiUserValidator.js";
 import imageUploadParserer from "../utils/parserers/imageUploadParserer.js";
 import resizePic from "../utils/resizePic.js";
@@ -22,6 +22,8 @@ userRouter.get('/leaderboards',  protect, getLeaderboards)
 userRouter.get('/recents', protect, getRecents)
 
 userRouter.get('/dashboard', protect, getDashboard)
+
+userRouter.get('/me', protect, getMe)
 
 userRouter.route('/:userID')
 .get(protect, getUser)
