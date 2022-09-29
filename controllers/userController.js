@@ -1,7 +1,6 @@
 import User from "../models/userModel.js";
 import AppError from "../managers/AppError.js";
 import catchAsync from "../managers/catchAsync.js";
-import { createSendToken } from "./authController.js";
 import { getAllDocs, getDoc, updateDoc, deleteDoc } from "../utils/HandlerFactory.js";
 import sendEmail from "../utils/Email.js";
 import PR from "../models/prModel.js";
@@ -29,10 +28,22 @@ export const getMe =catchAsync(async(req, res, next)=>{
     })
     const rank = ids.indexOf(user.id)+1
     const data={...user._doc, rank}
+    console.log(data)
     res.status(200).json({
         status:"success",
         requestedAt: req.requestedAt,
         data
+    })
+})
+
+export const setGitUsername = catchAsync((req, res, next)=>{
+    const user= req.user;
+    user.username=req.body.githubUsername
+    user.isGithubUsername=true
+    user.save()
+    res.status(200).json({
+        status:"success",
+        requestedAt: req.requestedAt
     })
 })
 

@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema({
                 return el>=0
             }
         }
+    },
+    isGithubUsername:{
+        type:Boolean,
+        default:false
     }
     // password:{
     //     type:String,

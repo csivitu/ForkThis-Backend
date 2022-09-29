@@ -1,15 +1,14 @@
 import express from "express";
-import { signup, login, protect } from "../Controllers/authController.js";
+import { protect } from "../Controllers/authController.js";
 import { getLeaderboards } from "../controllers/scoreController.js";
-import { getUser, getRecents, getDashboard, getMe, getRepoIssues } from "../Controllers/userController.js";
+import { getUser, getRecents, getDashboard, getMe, getRepoIssues, setGitUsername } from "../Controllers/userController.js";
 import { joiUserCreateValidator } from "../validators/joiValidators/joiUserValidator.js";
 import imageUploadParserer from "../utils/parserers/imageUploadParserer.js";
 import resizePic from "../utils/resizePic.js";
 
 const userRouter= express.Router()
 
-userRouter.post('/signup', imageUploadParserer, joiUserCreateValidator, resizePic, signup)
-userRouter.post('/login',login)
+userRouter.post('/gitUsername',protect, setGitUsername)
 
 userRouter.get('/leaderboards',  protect, getLeaderboards) 
 

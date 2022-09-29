@@ -8,23 +8,28 @@ import reopenPR from "./PRControllers/reopenPR.js";
 import mergePR from "./PRControllers/mergePR.js";
 import labelIssue from "./issueControllers/labelIssue.js";
 import axios from 'axios'
+import envHandler from "../managers/envHandler.js";
 
-export const oauth =catchAsync(async(req, res, next)=>{
-    const {code} = req.query
-    const secret = "3c81a013471421b73e8a5d9e2acfd47846d5d054"
-    const clientID = "ce1a21d8b45d47f95615"
-    const URL = `https://github.com/login/oauth/access_token?code=${code}&clientsecret=${secret}&clientid=${clientID}`
-    const body={
-        "code":code,
-        "secret":secret
-    }
+export const oauthHandler =catchAsync(async(req, res, next)=>{
+    const { code } = req.query
+    const secret = envHandler('GITHUB_API_CLIENT_SECRET')
+    const clientID = envHandler('GITHUB_API_CLIENT_ID')
+
+    const URL = `https://github.com/login/oauth/access_token?code=${code}&client_secret=${secret}&client_id=${clientID}`
+
     const resposne = await axios.post(URL)
-    console.log(resposne)
-    res.status(200).json({
-        status:"success",
-        requestedAt: req.requestedAt,
-        message :"User Loggout Out"
+    const params = new URLSearchParams(resposne.data)
+    const token =(params.get('access_token'))
+
+    const userData = await axios.get('https://api.github.com/user', {
+        headers:{
+            "Authorization" : `Bearer ${token}`
+        }
     })
+
+    const userName = userData.data.login
+
+    res.cookie("githubUsername", userName).redirect('http://localhost:3000/github/username')
 })
 
 export const PRController=catchAsync(async(req, res, next)=>{
