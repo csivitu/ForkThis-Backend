@@ -7,6 +7,25 @@ import closePR from "./PRControllers/closePR.js";
 import reopenPR from "./PRControllers/reopenPR.js";
 import mergePR from "./PRControllers/mergePR.js";
 import labelIssue from "./issueControllers/labelIssue.js";
+import axios from 'axios'
+
+export const oauth =catchAsync(async(req, res, next)=>{
+    const {code} = req.query
+    const secret = "3c81a013471421b73e8a5d9e2acfd47846d5d054"
+    const clientID = "ce1a21d8b45d47f95615"
+    const URL = `https://github.com/login/oauth/access_token?code=${code}&clientsecret=${secret}&clientid=${clientID}`
+    const body={
+        "code":code,
+        "secret":secret
+    }
+    const resposne = await axios.post(URL)
+    console.log(resposne)
+    res.status(200).json({
+        status:"success",
+        requestedAt: req.requestedAt,
+        message :"User Loggout Out"
+    })
+})
 
 export const PRController=catchAsync(async(req, res, next)=>{
     const { action } = req.body;

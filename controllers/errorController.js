@@ -36,7 +36,7 @@ export const noURL=(err, req, res, next)=>{
     err.status= err.status || "error";
     if(envHandler("NODE_ENV")==='dev'){
         console.log("in dev")
-        console.log(err.message)
+        console.log(err)
         res.status(err.statusCode).json({
             status:err.status,
             error:err,

@@ -34,6 +34,6 @@ export const joiChallengeValidator = catchAsync(async(req, res, next)=>{
     req.body.raisedBy=req.user.id;
     if(req.body.coinsBet>req.user.coins) return next(new AppError("Invalid Bet coins", 400))
     if(req.body.startsAt>=req.body.endsAt) return next(new AppError("Invalid Challenge Duration", 400))
-    req.body.raisedUserActivity=['Raised the Challenge'];
+    req.body.raisedUserActivity=[{data:'Raised the Challenge', URL:''}];
     next()
 })

@@ -65,7 +65,7 @@ export const acceptChallenge = catchAsync(async(req, res, next)=>{
     const challenge=req.challenge;
     challenge.acceptedBy=req.user.id;
     challenge.challengeStatus='accepted'
-    challenge.acceptedUserActivity=['Accepted the Challenge.']
+    challenge.acceptedUserActivity=[{data:'Accepted the Challenge.', URL:''}]
     await challenge.save()
     const raisedChallenges = await Challenge.find({$and:[{challengeStatus:'raised'}, { $or: [ { raisedBy: req.user.id }, {raisedBy: challenge.raisedBy}]}]})
     raisedChallenges.forEach(async(el)=>await el.delete())

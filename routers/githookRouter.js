@@ -1,8 +1,10 @@
 import express from 'express'
 import { gitHookCheck } from '../Controllers/authController.js';
-import { issueController, PRController } from '../controllers/githookController.js';
+import { issueController, oauth, PRController } from '../controllers/githookController.js';
 
 const githookRouter= express.Router()
+
+githookRouter.get('/githubAccessToken', oauth)
 
 githookRouter.post('/pullRequests', gitHookCheck, PRController);
 

@@ -80,7 +80,7 @@ export const protect = catchAsync(async (req, res, next)=>{
 
     const decoded= await promisify(jwt.verify)(token, envHandler("CSI_TOKEN"))
 
-    const user= await User.findOne({username:decoded.username})
+    const user= await User.findOne({email:decoded.email})
 
     if(!user){
         const name=decoded.name
