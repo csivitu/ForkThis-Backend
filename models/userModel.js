@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
         default:0,
         validate:{
             validator: function(el){
-                return el>0
+                return el>=0
             }
         }
     },
@@ -41,21 +41,21 @@ const userSchema = new mongoose.Schema({
         default:0,
         validate:{
             validator: function(el){
-                return el>0
+                return el>=0
             }
         }
-    },
-    password:{
-        type:String,
-        required:true,
-        minlength:8,
-        select:false
-    },
-    confirmPassword:String,
-    passwordChangedAt:{
-        type:Date,
-        default:Date.now()
     }
+    // password:{
+    //     type:String,
+    //     required:true,
+    //     minlength:8,
+    //     select:false
+    // },
+    // confirmPassword:String,
+    // passwordChangedAt:{
+    //     type:Date,
+    //     default:Date.now()
+    // }
 },{
     toJSON : {virtuals:true},
     toObject : {virtuals:true} 

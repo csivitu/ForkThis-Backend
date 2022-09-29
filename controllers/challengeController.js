@@ -42,7 +42,6 @@ export const getActiveChallenges= catchAsync(async (req, res, next)=>{
 
     res.status(200).json({
         status: 'success',
-        results: docs.length,
         requestedAt: req.requestedAt,
         data: docs,
     });

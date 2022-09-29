@@ -48,6 +48,29 @@ export const login = catchAsync(async (req,res, next)=>{
         createSendToken(user, 200, res)
 })
 
+// export const protect = catchAsync(async (req, res, next)=>{
+//     let token;
+
+//     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer'))token=req.headers.authorization.split(' ')[1]
+
+//     if(!token) return next(new AppError("You are not Logged in. Please Login to continue", 401))
+
+//     const decoded= await promisify(jwt.verify)(token, envHandler("JWT_KEY"))
+
+//     // edits for accounts integration
+
+//     const user= await User.findById(decoded.id)
+
+//     if(req.params.userID && decoded.id!=req.params.userID) return next(new AppError("Please Login in as the Modifying User.", 401))
+
+//     if(!user) return next(new AppError("User of this token no longer exists", 401))
+
+//     if(user.changedPasswordAfter(decoded.iat)) return next(new AppError("Password was recently changed. Please Login again", 401))
+
+//     req.user=user;
+//     next()
+// })
+
 export const protect = catchAsync(async (req, res, next)=>{
     let token;
 
@@ -55,22 +78,42 @@ export const protect = catchAsync(async (req, res, next)=>{
     
     if(!token) return next(new AppError("You are not Logged in. Please Login to continue", 401))
 
-    const decoded= await promisify(jwt.verify)(token, envHandler("JWT_KEY"))
+    const decoded= await promisify(jwt.verify)(token, envHandler("CSI_TOKEN"))
 
-    const user= await User.findById(decoded.id)
+    const user= await User.findOne({username:decoded.username})
 
-    if(req.params.userID && decoded.id!=req.params.userID) return next(new AppError("Please Login in as the Modifying User.", 401))
+    if(!user){
+        const name=decoded.name
+        const email=decoded.email
+        const phoneNo=decoded.mobile
+        const username=decoded.username
+        if(name && email && phoneNo && username){
+            try{
+                const newUser = User.create({
+                    name:name,
+                    email:email,
+                    phoneNo:phoneNo,
+                    username:username
+                })
+                req.user=newUser
+                console.log("new user created")
+            }catch(err){
+                console.log(err)
+            }
+        }
+        else return next(new AppError("Invalid token.", 401))
+    }
 
-    if(!user) return next(new AppError("User of this token no longer exists", 401))
+    if(req.params.username && decoded.username!=req.params.username) return next(new AppError("Please Login in as the Modifying User.", 401))
 
-    if(user.changedPasswordAfter(decoded.iat)) return next(new AppError("Password was recently changed. Please Login again", 401))
+    if(!user && !newUser) return next(new AppError("User of this token does not exists", 401))
 
-    req.user=user;
+    if(user) req.user=user;
     next()
 })
 
 export const logout = catchAsync(async (req, res, next)=>{
-    res.cookie('jwt', 'loggedout', {
+    res.cookie('token', 'loggedout', {
         expires: new Date(Date.now()+ 1*1000),
         httpOnly: true
     });
