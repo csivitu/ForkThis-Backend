@@ -16,7 +16,8 @@ challengeRouter.post('/raise', protect, joiChallengeValidator, raiseChallenge);
 
 challengeRouter.post('/accept/:id', protect, getReqChallenge, acceptChallengeValidator, acceptChallenge);
 
-challengeRouter.get('/:id', protect, getChallenge)
-challengeRouter.delete('/:id', protect, deleteChallenge)
+challengeRouter.route('/:id')
+                .get(protect, getChallenge)
+                .delete(protect, deleteChallenge)
 
 export default challengeRouter;

@@ -50,7 +50,7 @@ export const getActiveChallenges= catchAsync(async (req, res, next)=>{
 
 export const getClosedChallenges= catchAsync(async (req, res, next)=>{
 
-    const docs = await Challenge.find({$and:[{$or: [ { challengeStatus: "rejected" }, { challengeStatus: "ended" } ]}, { $or: [ { raisedBy: req.user.id }, { acceptedBy: req.user.id } ] }]}).sort({startsAt:-1})   
+    const docs = await Challenge.find({$and:[{$or: [ { challengeStatus: "rejected" }, { challengeStatus: "ended" } ]}, { $or: [ { raisedBy: req.user.id }, { acceptedBy: req.user.id } ] }]}).sort({startsAt:-1}).populate('raisedBy').populate('acceptedBy')   
 
     res.status(200).json({
         status: 'success',
@@ -66,6 +66,7 @@ export const acceptChallenge = catchAsync(async(req, res, next)=>{
     const challenge=req.challenge;
     challenge.acceptedBy=req.user.id;
     challenge.challengeStatus='accepted'
+    challenge.acceptedUserActivity=['Accepted the Challenge.']
     await challenge.save()
     const raisedChallenges = await Challenge.find({$and:[{challengeStatus:'raised'}, { $or: [ { raisedBy: req.user.id }, {raisedBy: challenge.raisedBy}]}]})
     raisedChallenges.forEach(async(el)=>await el.delete())

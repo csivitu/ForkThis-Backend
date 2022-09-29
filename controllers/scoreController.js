@@ -31,20 +31,20 @@ export const setScore =async (issue, user, challenge=null)=>{
         user.coins+=2;
     }
     else if(issue.labels.includes('easy')){
-        user.score++;
-        user.coins++
+        user.score+=20;
+        user.coins+=5;
     }
     else if(issue.labels.includes('medium')){
-        user.score++;
-        user.coins++
+        user.score+=50;
+        user.coins+=10;
     }
     else if(issue.labels.includes('hard')){
-        user.score++;
-        user.coins++
+        user.score+=100;
+        user.coins+=15;
     }
     else if(issue.labels.includes('expert')){
-        user.score++;
-        user.coins++
+        user.score+=200;
+        user.coins+=20
     }
     if(challenge) if(tagChecker(issue.labels, challenge.labels) && issue.difficulty==challenge.difficulty){
         if(challenge.raisedBy==user.id) challenge.raisedUserScore+=user.score-nowScore;

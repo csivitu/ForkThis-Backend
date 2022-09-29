@@ -29,11 +29,21 @@ const userSchema = new mongoose.Schema({
     tags:[String],
     score:{
         type:Number,
-        default:0
+        default:0,
+        validate:{
+            validator: function(el){
+                return el>0
+            }
+        }
     },
     coins:{
         type:Number,
-        default:0
+        default:0,
+        validate:{
+            validator: function(el){
+                return el>0
+            }
+        }
     },
     password:{
         type:String,
@@ -45,10 +55,7 @@ const userSchema = new mongoose.Schema({
     passwordChangedAt:{
         type:Date,
         default:Date.now()
-    },
-    passwordResetToken:String,
-    passwordResetTokenExpiresIn:Date
-
+    }
 },{
     toJSON : {virtuals:true},
     toObject : {virtuals:true} 
@@ -102,21 +109,6 @@ userSchema.methods.changedPasswordAfter =  function (JWTTimestrap){
     const changedTimestrap=parseInt(this.passwordChangedAt.getTime() / 1000, 10)
     return JWTTimestrap<changedTimestrap
 }
-
-userSchema.methods.createPasswordResetToken= async function(){
-    const token= crypto.randomBytes(32).toString('hex');
-    this.passwordResetToken= await bcrypt.hash(token, 4)
-    this.passwordResetTokenExpiresIn= Date.now() + 10*60*1000;
-    return token
-}
-
-userSchema.methods.resetTokenExpired= function(){
-    if(this.passwordResetTokenExpiresIn) return Date.now()>this.passwordResetTokenExpiresIn;
-}
-
-userSchema.methods.correctPasswordResetToken = async function (inToken, userToken){
-    return await bcrypt.compare(inToken, userToken)
-};
 
 const User = mongoose.model("User", userSchema);
 

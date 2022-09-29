@@ -8,7 +8,7 @@ const joiItemSchema = Joi.object({
         if(value<0) return helper.message("Count In Stock cannot be negative")
     }),
     coins:Joi.number().custom((value, helper)=>{
-        if(value<0) return helper.message("Coins cannot be negative")
+        if(value<=0) return helper.message("Coins cannot be zero/negative")
     })
 })
 
