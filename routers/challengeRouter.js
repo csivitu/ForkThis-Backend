@@ -20,6 +20,6 @@ challengeRouter.post('/surrender/:id', protect, getReqChallenge, surrenderChalle
 
 challengeRouter.route('/:id')
                 .get(protect, getChallenge)
-                .delete(protect, deleteChallenge)
+                .delete(protect, getReqChallenge, deleteChallenge)
 
 export default challengeRouter;

@@ -17,8 +17,7 @@ export const getPurchase = getDoc(Purchase)
 export const getUserPurchases = catchAsync(async (req, res, next)=>{
 
     const docs = await Purchase.find({user:req.user.id}).sort({purchasedAt:-1}).populate('user')
-    console.log(docs)
-
+    
     res.status(200).json({
         status: 'success',
         results: docs.length,
