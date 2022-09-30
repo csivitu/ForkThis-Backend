@@ -160,19 +160,17 @@ const timeVSpr = (prs) =>{
         noOfPRsOfProject1:0,
         noOfPRsOfProject2:0,
         noOfPRsOfProject3:0,
-        noOfPRsOfProject4:0,
-        noOfPRsOfProject5:0
+        noOfPRsOfProject4:0
     }
     //project1 = interact_main
     //project2 = someOther Project
     timeSlots.forEach(el=>{
         prs.forEach(pr=>{
             if(compareDates(el, String(pr.createdAt))==1){
-                if(pr.issue.repo=='interact-old') a.noOfPRsOfProject1++;
-                else if(pr.issue.repo=='interact_main2') a.noOfPRsOfProject2++;
-                else if(pr.issue.repo=='interact_main3') a.noOfPRsOfProject3++;
-                else if(pr.issue.repo=='interact_main4') a.noOfPRsOfProject4++;
-                else if(pr.issue.repo=='interact_main5') a.noOfPRsOfProject5++;
+                if(pr.issue.repo==envHandler('PROJECT1')) a.noOfPRsOfProject1++;
+                else if(pr.issue.repo==envHandler('PROJECT2')) a.noOfPRsOfProject2++;
+                else if(pr.issue.repo==envHandler('PROJECT3')) a.noOfPRsOfProject3++;
+                else if(pr.issue.repo==envHandler('PROJECT4')) a.noOfPRsOfProject4++;
 
             };
         })
