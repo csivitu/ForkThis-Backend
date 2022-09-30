@@ -179,8 +179,7 @@ const timeVSpr = (prs) =>{
             noOfPRsOfProject1:a.noOfPRsOfProject1,
             noOfPRsOfProject2:a.noOfPRsOfProject2,
             noOfPRsOfProject3:a.noOfPRsOfProject3,
-            noOfPRsOfProject4:a.noOfPRsOfProject4,
-            noOfPRsOfProject5:a.noOfPRsOfProject5
+            noOfPRsOfProject4:a.noOfPRsOfProject4
         }
         timeData.push(obj)
     })
