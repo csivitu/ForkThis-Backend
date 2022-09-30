@@ -28,7 +28,6 @@ export const getMe =catchAsync(async(req, res, next)=>{
     })
     const rank = ids.indexOf(user.id)+1
     const data={...user._doc, rank}
-    console.log(data)
     res.status(200).json({
         status:"success",
         requestedAt: req.requestedAt,
