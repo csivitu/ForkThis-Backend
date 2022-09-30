@@ -14,7 +14,7 @@ shopRouter.get('/item/:id', protect, getItem)
 
 shopRouter.post('/purchase', protect, joiPurchaseValidator, buyItem)
 
-shopRouter.get('/purchases',(req, res, next)=>{console.log(req.headers.authorization)}, protect, getUserPurchases)
+shopRouter.get('/purchases', protect, getUserPurchases)
 
 shopRouter.get('/purchase/:id', protect, getPurchase)
 

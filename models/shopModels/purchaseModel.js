@@ -36,6 +36,11 @@ purchaseSchema.pre(/^find/,function(next){
     next()
 })
 
+purchaseSchema.pre("save", async function(next){
+    this.purchasedAt=Date.now()
+    next()
+})
+
 purchaseSchema.post("save", async function(doc){
     const user= await User.findById(doc.user)
     const item = await Item.findById(doc.item)
