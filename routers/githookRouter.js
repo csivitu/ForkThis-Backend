@@ -1,5 +1,5 @@
 import express from 'express'
-import { gitHookCheck } from '../Controllers/authController.js';
+import { gitHookCheck } from '../controllers/authController.js';
 import { issueController, oauthHandler, PRController } from '../controllers/githookController.js';
 
 const githookRouter= express.Router()
