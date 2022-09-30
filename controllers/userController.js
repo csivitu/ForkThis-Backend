@@ -35,8 +35,10 @@ export const getMe =catchAsync(async(req, res, next)=>{
     })
 })
 
-export const setGitUsername = catchAsync((req, res, next)=>{
+export const setGitUsername = catchAsync(async(req, res, next)=>{
     const user= req.user;
+    const allUsers = await User.find({username:req.body.githubUsername});
+    if(allUsers.length>0) return next(new AppError("This Github account is already in use.", 400))
     user.username=req.body.githubUsername
     user.isGithubUsername=true
     user.save()

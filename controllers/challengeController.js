@@ -77,6 +77,30 @@ export const acceptChallenge = catchAsync(async(req, res, next)=>{
     })
 })
 
+export const surrenderChallenge = catchAsync(async(req, res, next)=>{
+    const challenge= req.challenge
+    const raisedUser = await User.findById(challenge.raisedBy);
+    const acceptedUser = await User.findById(challenge.acceptedBy);
+            if(challenge.raisedUserScore>challenge.acceptedUserScore){
+                raisedUser.coins+=challenge.coinsBet
+                acceptedUser.coins-=challenge.coinsBet
+            }
+            else if(challenge.raisedUserScore<challenge.acceptedUserScore){
+                raisedUser.coins-=challenge.coinsBet
+                acceptedUser.coins+=challenge.coinsBet
+            }
+    raisedUser.save();
+    acceptedUser.save();
+    challenge.challengeStatus='ended';
+    challenge.save()
+
+    res.status(201).json({
+        status:"success",
+        requestedAt: req.requestedAt,
+        data: challenge
+    })
+})
+
 export const deleteChallenge= catchAsync(async(req, res, next)=>{
     const challenge=req.challenge;
     if(req.user.id!=challenge.raisedBy || challenge.challengeStatus!='raised') return next(new AppError("You cannot delete this Challenge.", 500))
