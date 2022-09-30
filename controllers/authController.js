@@ -37,7 +37,7 @@ export const protect = catchAsync(async (req, res, next)=>{
 
     if(req.params.username && decoded.username!=req.params.username) return next(new AppError("Please Login in as the Modifying User.", 401))
 
-    if(!user && !newUser) return next(new AppError("User of this token does not exists", 401))
+    if(!user && !req.user) return next(new AppError("User of this token does not exists", 401))
 
     if(user) req.user=user;
     next()

@@ -29,7 +29,7 @@ export const oauthHandler =catchAsync(async(req, res, next)=>{
 
     const userName = userData.data.login
 
-    res.cookie("githubUsername", userName).redirect('http://localhost:3000/github/username')
+    res.cookie("githubUsername", userName).redirect(`${envHandler("FRONTEND_URL")}/github/username`)
 })
 
 export const PRController=catchAsync(async(req, res, next)=>{
