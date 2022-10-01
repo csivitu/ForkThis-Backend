@@ -11,11 +11,9 @@ export const scheduleChallenge=(challenge) => {
     var hr=time_arr[0];
     const min=time_arr[1];
     const sec=time_arr[2];
-    console.log(month, date, hr, min, sec)
     if(arr[4]=='pm') hr=(Number(hr)+12).toString();
     scheduleJob(`${sec} ${min} ${hr} ${date} ${month} *`,async function(){
         const nowChallenge = await Challenge.findById(challenge.id)
-        console.log("Scheduler running")
         if(nowChallenge && nowChallenge.acceptedBy){
             const raisedUser = await User.findById(nowChallenge.raisedBy);
             const acceptedUser = await User.findById(nowChallenge.acceptedBy);
