@@ -20,6 +20,7 @@
   * [Built With](#built-with)
 * [Usage](#usage)
 * [Contributing](#contributing)
+* [Contributors](#contributors)
 
 
 <!-- ABOUT THE PROJECT -->
@@ -49,6 +50,8 @@ A website for CSI-VIT's ForkThis, which was a Github workshop followed by a 3 da
 
 
 
+
+
 <!-- CONTRIBUTING -->
 ## Contributing
 
@@ -61,3 +64,14 @@ Contributions are what make the open source community such an amazing place to b
 5. Open a Pull Request
 
 You are requested to follow the contribution guidelines specified in [CONTRIBUTING.md](./CONTRIBUTING.md) while contributing to the project :smile:.
+
+
+## Contributors
+
+Thanks goes to these wonderful people:
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/Pratham-Mishra04"><img src="https://avatars.githubusercontent.com/u/72266283?v=4" width="100px;" alt=""/><br /><sub><b>Pratham Mishra</b></sub></a><br /></td>
+  </tr>
+</table>
