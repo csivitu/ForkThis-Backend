@@ -68,10 +68,8 @@ You are requested to follow the contribution guidelines specified in [CONTRIBUTI
 
 ## Contributors
 
-Thanks goes to these wonderful people:
-
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/Pratham-Mishra04"><img src="https://avatars.githubusercontent.com/u/72266283?v=4" width="100px;" alt=""/><br /><sub><b>Pratham Mishra</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/Pratham-Mishra04"><img src="https://avatars.githubusercontent.com/u/99235987?s=400&v=4" width="100px;" alt=""/><br /><sub><b>Pratham Mishra</b></sub></a><br /></td>
   </tr>
 </table>
