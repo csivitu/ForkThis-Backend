@@ -61,7 +61,7 @@ Then we also have a leaderboards section here to display the participants sorted
 
 <div>
 <img src="/screenshots/Shop.JPG" width="400px;" alt=""/>
-<p>3. Heading onto shop, we have items such as tshirts, pens, bags, etc which can be bought using the coins the user is awarded upon getting a PR merged and winning challenges. 
+<p>3. Heading onto shop, we have items such as tshirts, pens, bags, etc which can be bought using the coins the user is awarded upon getting a PR merged and winning challenges.<br/> 
 <img src="/screenshots/Purchased%20Items.JPG" width="400px;" alt=""/>
 <br/>
 The purchased items can be viewed under the purchased section.</p>
