@@ -46,29 +46,29 @@ A website for CSI-VIT's ForkThis, which was a Github workshop followed by a 3 da
 <!-- USAGE EXAMPLES -->
 ## Usage
 <div>
-<img src="/screenshots/Landing%20Page.jpg" width="400px;" alt="Image not available"/>
+<img src="/screenshots/Landing%20Page.JPG" width="400px;" alt="Image not available"/>
 <p>1. The website opens here at the landing page where you are asked to sign up, which takes you to CSI Accounts page and then to Github for authentication.</p>
 </div>
 
 <div>
-<img src="/screenshots/Home%20Page%201.jpg" width="400px;" alt=""/>
-<img src="/screenshots/Landing%20Page%202.jpg" width="400px;" alt=""/>
+<img src="/screenshots/Home%20Page%201.JPG" width="400px;" alt=""/>
+<img src="/screenshots/Landing%20Page%202.JPG" width="400px;" alt=""/>
 <p>2. After the Login is complete, the tokens are stored in cookies, and the user lands onto the home page. Here all the data of the PRs merged is presented against the time, difficulty and the tags, and a recents section to display the 10 most recent acitivies of our participants, which include filing a PR, getting a PR merged and raising an issue.<br/> 
-<img src="/screenshots/Leaderboards.jpg" width="400px;" alt=""/>
+<img src="/screenshots/Leaderboards.JPG" width="400px;" alt=""/>
 <br/>
 Then we also have a leaderboards section here to display the participants sorted based on their points.</p>
 </div>
 
 <div>
-<img src="/screenshots/Shop.jpg" width="400px;" alt=""/>
+<img src="/screenshots/Shop.JPG" width="400px;" alt=""/>
 <p>3. Heading onto shop, we have items such as tshirts, pens, bags, etc which can be bought using the coins the user is awarded upon getting a PR merged and winning challenges. 
-<img src="/screenshots/Purchased%20Items.jpg" width="400px;" alt=""/>
+<img src="/screenshots/Purchased%20Items.JPG" width="400px;" alt=""/>
 <br/>
 The purchased items can be viewed under the purchased section.</p>
 </div>
 
 <div>
-<img src="/screenshots/Create%20Challenge.jpg" width="400px;" alt=""/>
+<img src="/screenshots/Create%20Challenge.JPG" width="400px;" alt=""/>
 <p>4. The most intriguing feature which adds life to this event is Challenges. You can raise a challenge wherein you specify it's duration, tags of the issues to be solved under this challenge and coins the participant is willing to bet on this challenge. Once the challenge is up it shows up in the Open Challenges section and other participants can accept it. Once a challenge is accepted, the complete tack of both the users' activity is displayed but the final score of the opponent is disclosed when the challenge ends and the coins bet are reduced from the losing player and are added to the winner. Both the participants need to solve issues under the specified tags of the challenge to collect points and compete. After the challenge ends, it gets pushed to the closed challenges section. </p>
 </div>
 
