@@ -1,6 +1,3 @@
-[![csivit][csivitu-shield]][csivitu-url]
-[![Issues][issues-shield]][issues-url]
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -8,21 +5,11 @@
     <img src="https://csivit.com/images/favicon.png" alt="Logo" width="80">
   </a>
 
-  <h3 align="center">YOUR_TITLE</h3>
+  <h3 align="center">ForkThis</h3>
 
   <p align="center">
-    YOUR_SHORT_DESCRIPTION
-    <br />
-    <a href="https://github.com/csivitu/Template"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/csivitu/Template">View Demo</a>
-    ·
-    <a href="https://github.com/csivitu/Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/csivitu/Template/issues">Request Feature</a>
+    To live and breathe open source
   </p>
-</p>
 
 
 
@@ -31,76 +18,59 @@
 
 * [About the Project](#about-the-project)
   * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
 * [Usage](#usage)
-* [Roadmap](#roadmap)
 * [Contributing](#contributing)
-* [License](#license)
-* [Contributors](#contributors-)
-
+* [Contributors](#contributors)
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+A website for CSI-VIT's ForkThis, which was a Github workshop followed by a 3 day event wherein participants were supposed to solved the issues raised in the given CSI-VIT's projects, for which they were awarded points which were used to buy items available in the shop and to maintain the leaderboards. A complete track of participant's progress was also shown on the dashboard using Chart-JS.
 
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`Template`
+<strong> This Repository contains only the Backend of the project. </strong>
 
 
 ### Built With
 
-* []()
-* []()
-* []()
-
-
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-To get a local copy up and running follow these simple steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-```sh
-npm install npm@latest -g
-```
-
-### Installation
- 
-1. Clone the repo
-```sh
-git clone https://github.com/csivitu/Template.git
-```
-2. Install NPM packages
-```sh
-npm install
-```
-
+* React JS
+* Express JS
+* Node Scheduler
+* Github OAuth
+* Github Webhooks
+* Tailwind CSS
+* MongoDB
+* Chart JS
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+<div>
+<img src="/screenshots/Landing%20Page.JPG" width="400px;" alt="Image not available"/>
+<p>1. The website opens here at the landing page where you are asked to sign up, which takes you to CSI Accounts page and then to Github for authentication.</p>
+</div>
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+<div>
+<img src="/screenshots/Home%20Page%201.JPG" width="400px;" alt=""/>
+<img src="/screenshots/Landing%20Page%202.JPG" width="400px;" alt=""/>
+<p>2. After the Login is complete, the tokens are stored in cookies, and the user lands onto the home page. Here all the data of the PRs merged is presented against the time, difficulty and the tags, and a recents section to display the 10 most recent acitivies of our participants, which include filing a PR, getting a PR merged and raising an issue.<br/> 
+<img src="/screenshots/Leaderboards.JPG" width="400px;" alt=""/>
+<br/>
+Then we also have a leaderboards section here to display the participants sorted based on their points.</p>
+</div>
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+<div>
+<img src="/screenshots/Shop.JPG" width="400px;" alt=""/>
+<p>3. Heading onto shop, we have items such as tshirts, pens, bags, etc which can be bought using the coins the user is awarded upon getting a PR merged and winning challenges.<br/> 
+<img src="/screenshots/Purchased%20Items.JPG" width="400px;" alt=""/>
+<br/>
+The purchased items can be viewed under the purchased section.</p>
+</div>
 
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/csivitu/Template/issues) for a list of proposed features (and known issues).
-
-
+<div>
+<img src="/screenshots/Create%20Challenge.JPG" width="400px;" alt=""/>
+<p>4. The most intriguing feature which adds life to this event is Challenges. You can raise a challenge wherein you specify it's duration, tags of the issues to be solved under this challenge and coins the participant is willing to bet on this challenge. Once the challenge is up it shows up in the Open Challenges section and other participants can accept it. Once a challenge is accepted, the complete tack of both the users' activity is displayed but the final score of the opponent is disclosed when the challenge ends and the coins bet are reduced from the losing player and are added to the winner. Both the participants need to solve issues under the specified tags of the challenge to collect points and compete. After the challenge ends, it gets pushed to the closed challenges section. </p>
+</div>
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -115,17 +85,11 @@ Contributions are what make the open source community such an amazing place to b
 
 You are requested to follow the contribution guidelines specified in [CONTRIBUTING.md](./CONTRIBUTING.md) while contributing to the project :smile:.
 
-<!-- LICENSE -->
-## License
 
-Distributed under the MIT License. See [`LICENSE`](./LICENSE) for more information.
+## Contributors
 
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[csivitu-shield]: https://img.shields.io/badge/csivitu-csivitu-blue
-[csivitu-url]: https://csivit.com
-[issues-shield]: https://img.shields.io/github/issues/csivitu/Template.svg?style=flat-square
-[issues-url]: https://github.com/csivitu/Template/issues
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/Pratham-Mishra04"><img src="https://avatars.githubusercontent.com/u/99235987?s=400&v=4" width="100px;" alt=""/><br /><sub><b>Pratham Mishra</b></sub></a><br /></td>
+  </tr>
+</table>
