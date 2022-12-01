@@ -46,8 +46,7 @@ A website for CSI-VIT's ForkThis, which was a Github workshop followed by a 3 da
 <!-- USAGE EXAMPLES -->
 ## Usage
 <div>
-<!-- <img src="/screenshots/Landing_Page.jpg" width="400px;" alt=""/> -->
- ![alt text](/screenshots/Landing_Page.jpg)
+<img src="/screenshots/Landing_Page.jpg" width="400px;" alt="Image not available"/>
 <p>1. The website opens here at the landing page where you are asked to sign up, which takes you to CSI Accounts page and then to Github for authentication.</p>
 </div>
 
