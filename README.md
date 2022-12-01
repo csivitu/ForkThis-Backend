@@ -46,7 +46,8 @@ A website for CSI-VIT's ForkThis, which was a Github workshop followed by a 3 da
 <!-- USAGE EXAMPLES -->
 ## Usage
 <div>
-<img src="/screenshots/Landing_Page.jpg" width="400px;" alt=""/>
+<!-- <img src="/screenshots/Landing_Page.jpg" width="400px;" alt=""/> -->
+ ![alt text](/screenshots/Landing_Page.jpg)
 <p>1. The website opens here at the landing page where you are asked to sign up, which takes you to CSI Accounts page and then to Github for authentication.</p>
 </div>
 
@@ -61,10 +62,10 @@ Then we also have a leaderboards section here to display the participants sorted
 
 <div>
 <img src="/screenshots/Shop.jpg" width="400px;" alt=""/>
-<p>3. Heading onto shop, we have item such as tshirts, pens, bags, etc which can be bought using the coins the user is awarded upon getting a PR merged and winning challenges. 
+<p>3. Heading onto shop, we have items such as tshirts, pens, bags, etc which can be bought using the coins the user is awarded upon getting a PR merged and winning challenges. 
 <img src="/screenshots/Purchased%20Items.jpg" width="400px;" alt=""/>
 <br/>
-The purchased items can be viewed in the purchased section.</p>
+The purchased items can be viewed under the purchased section.</p>
 </div>
 
 <div>
